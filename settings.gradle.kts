@@ -3,3 +3,5 @@ plugins {
 }
 rootProject.name = "Kreate"
 
+include("example")
+includeBuild("plugin-build")
