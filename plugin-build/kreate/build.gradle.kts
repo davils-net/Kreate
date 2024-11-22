@@ -34,6 +34,7 @@ java {
 }
 
 kotlin {
+    explicitApi()
     jvmToolchain(targetJavaVersion.majorVersion.toInt())
 }
 
