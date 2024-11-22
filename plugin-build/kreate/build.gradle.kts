@@ -10,7 +10,7 @@ repositories {
 
 dependencies {
     implementation(gradleApi())
-    implementation(libs.kotlin.gradle.api)
+    implementation(libs.bundles.kreate.dependencies)
 }
 
 gradlePlugin {

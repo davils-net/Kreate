@@ -11,3 +11,8 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 build-src = [
     "kotlin-gradle-plugin"
 ]
+
+kreate-dependencies = [
+    "kotlin-gradle-api",
+    "kotlin-gradle-plugin"
+]
