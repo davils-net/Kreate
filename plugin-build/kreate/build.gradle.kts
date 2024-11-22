@@ -1,6 +1,7 @@
 plugins {
     `kotlin-dsl`
     `kreate-publishing`
+    `kreate-build-constants`
 }
 
 repositories {
@@ -34,4 +35,11 @@ java {
 
 kotlin {
     jvmToolchain(targetJavaVersion.majorVersion.toInt())
+}
+
+buildConstants {
+    properties = mapOf(
+        "ORGANIZATION_NAME" to Project.ORGANIZATION_NAME,
+        "ORGANISATION_URL" to Project.ORGANISATION_URL
+    )
 }
