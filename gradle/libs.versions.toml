@@ -3,3 +3,11 @@ kotlin = "2.0.21"
 
 [libraries]
 kotlin-gradle-api = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin-api", version.ref = "kotlin" }
+
+# actual plugins, but needed as dependencies in buildSrc
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
+[bundles]
+build-src = [
+    "kotlin-gradle-plugin"
+]
