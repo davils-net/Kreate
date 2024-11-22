@@ -41,6 +41,7 @@ kotlin {
 buildConstants {
     properties = mapOf(
         "ORGANIZATION_NAME" to Project.ORGANIZATION_NAME,
-        "ORGANISATION_URL" to Project.ORGANISATION_URL
+        "ORGANISATION_URL" to Project.ORGANISATION_URL,
+        "ORGANISATION_EMAIL" to Project.ORGANIZATION_EMAIL,
     )
 }
