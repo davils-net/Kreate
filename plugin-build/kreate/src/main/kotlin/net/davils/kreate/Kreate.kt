@@ -1,10 +1,14 @@
 package net.davils.kreate
 
+import net.davils.kreate.core.Core
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.create
 
-class Kreate : Plugin<Project> {
-    override fun apply(target: Project) {
-        println("Applied")
+public class Kreate : Plugin<Project> {
+    override fun apply(project: Project) {
+        val extension = project.extensions.create("kreate", KreateExtension::class)
+
+        Core.apply(project, extension)
     }
 }
