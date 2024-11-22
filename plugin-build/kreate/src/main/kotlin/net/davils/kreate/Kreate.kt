@@ -1,4 +1,4 @@
-package net.davils
+package net.davils.kreate
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
