@@ -14,10 +14,10 @@ import org.gradle.kotlin.dsl.*
 import java.net.URI
 
 public object Publish : KreateFeature {
-    override fun apply(project: Project, extension: KreateExtension) {
+    override fun apply(project: Project, extension: KreateExtension): Unit = project.afterEvaluate {
         val isPublishingEnabled = extension.publishing.enabled.orElse(false).get()
         if (!isPublishingEnabled) {
-            return
+            return@afterEvaluate
         }
         project.pluginManager.apply(MavenPublishPlugin::class)
 
