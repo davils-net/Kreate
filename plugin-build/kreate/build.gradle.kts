@@ -15,7 +15,7 @@ gradlePlugin {
     website = Project.ORGANISATION_URL
     plugins {
         register(Project.NAME.lowercase()) {
-            id = "${Project.GROUP}.${Project.NAME.lowercase()}"
+            id = Project.GROUP
             displayName = Project.NAME
             description = Project.DESCRIPTION
             implementationClass = "${Project.GROUP}.${Project.NAME}"
