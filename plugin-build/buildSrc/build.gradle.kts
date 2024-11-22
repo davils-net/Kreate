@@ -11,3 +11,7 @@ kotlin {
         allWarningsAsErrors = true
     }
 }
+
+dependencies {
+    implementation(libs.bundles.build.src)
+}
