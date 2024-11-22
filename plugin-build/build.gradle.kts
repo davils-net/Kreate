@@ -1,21 +1,4 @@
-plugins {
-    kotlin("jvm") version "2.0.21"
-}
-
-group = "net.davils"
-version = "unspecified"
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation(kotlin("test"))
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(21)
+allprojects {
+    version = System.getenv("CI_COMMIT_TAG") ?: System.getenv("CI_COMMIT_SHORT_SHA")?.let { "$it-dev" } ?: "0.0.0"
+    group = Project.GROUP
 }
