@@ -6,6 +6,10 @@ import org.gradle.api.Project
 public enum class License(public val value: String, public val text: String) {
     MIT("MIT", mit),
     ALL_RIGHTS_RESERVED("All rights reserved", allRightsReserved);
+
+    public companion object {
+        public fun byName(name: String): License? = values().firstOrNull { it.value == name }
+    }
 }
 
 internal fun generateLicense(project: Project, license: License) {
