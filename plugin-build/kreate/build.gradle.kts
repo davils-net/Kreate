@@ -9,6 +9,7 @@ repositories {
 
 dependencies {
     implementation(gradleApi())
+    implementation(libs.kotlin.gradle.api)
 }
 
 gradlePlugin {
