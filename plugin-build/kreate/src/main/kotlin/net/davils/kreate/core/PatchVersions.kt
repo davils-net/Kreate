@@ -16,6 +16,8 @@ public abstract class PatchVersions : DefaultTask() {
     internal fun patch() {
         val files = files.get()
         files.forEach { file ->
+            if (!file.exists()) throw IllegalStateException("File $file does not exist")
+
             val content = file.readText()
             val regex = Regex("\\d+\\.\\d+\\.\\d+")
             file.writeText(content.replace(regex, version))
