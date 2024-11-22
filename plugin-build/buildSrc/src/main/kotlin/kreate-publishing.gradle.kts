@@ -11,10 +11,10 @@ publishing {
 
                 developers {
                     developer {
-                        id = "davils"
-                        name = "Davils"
+                        id = Project.ORGANIZATION_NAME.lowercase()
+                        name = Project.ORGANIZATION_NAME
                         email = "contact@davils.net"
-                        organization = "Davils"
+                        organization = Project.ORGANIZATION_NAME
                         organizationUrl = Project.ORGANISATION_URL
                         url = Project.ORGANISATION_URL
                         timezone = "Europe/Berlin"
