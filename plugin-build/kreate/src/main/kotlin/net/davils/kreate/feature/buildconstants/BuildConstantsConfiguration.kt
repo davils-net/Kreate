@@ -12,7 +12,7 @@ public interface BuildConstantsConfiguration : KreateFeatureConfiguration {
 }
 
 internal fun BuildConstantsConfiguration.path(project: Project): File {
-    val path = buildPath.orElse("generated/templates").get()
+    val path = buildPath.getOrElse("generated/templates")
     val buildDir = project.layout.buildDirectory.dir(path)
     return buildDir.get().asFile
 }
