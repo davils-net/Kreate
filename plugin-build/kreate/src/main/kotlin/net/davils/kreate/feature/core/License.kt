@@ -1,4 +1,4 @@
-package net.davils.kreate.core
+package net.davils.kreate.feature.core
 
 import net.davils.kreate.build.BuildConstants
 import org.gradle.api.Project
