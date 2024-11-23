@@ -2,7 +2,6 @@ package net.davils.kreate.feature.publish
 
 import net.davils.kreate.KreateExtension
 import net.davils.kreate.build.BuildConstants
-import net.davils.kreate.feature.core.License
 import net.davils.kreate.utils.KreateFeature
 import net.davils.kreate.utils.isFeatureEnabled
 import org.gradle.api.Project
@@ -16,13 +15,13 @@ public class Publish(
     override val project: Project,
     override val extension: KreateExtension,
 ) : KreateFeature {
-    private val projectName = extension.core.name.getOrElse(project.rootProject.name)
-    private val projectDescription = extension.core.description.getOrElse("A Davils project")
-    private val projectLicense = extension.core.license.getOrElse(License.ALL_RIGHTS_RESERVED)
-    private val projectInceptionYear = extension.publishing.inceptionYear.getOrElse(2024)
+    private val projectName = extension.core.name.get()
+    private val projectDescription = extension.core.description.get()
+    private val projectLicense = extension.core.license.get()
+    private val projectInceptionYear = extension.publish.inceptionYear.get()
 
     override fun apply(): Unit = project.afterEvaluate {
-        if (!isFeatureEnabled(extension.publishing)) return@afterEvaluate
+        if (!isFeatureEnabled(extension.publish)) return@afterEvaluate
 
         require(projectInceptionYear >= 2024) { "The inception year must be at least 2024" }
         project.pluginManager.apply(MavenPublishPlugin::class)

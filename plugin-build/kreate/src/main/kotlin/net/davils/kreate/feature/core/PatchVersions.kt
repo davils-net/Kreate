@@ -1,5 +1,6 @@
 package net.davils.kreate.feature.core
 
+import net.davils.kreate.utils.projectVersion
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.tasks.Input
@@ -7,8 +8,6 @@ import org.gradle.api.tasks.TaskAction
 import java.io.File
 
 public abstract class PatchVersions : DefaultTask() {
-    private val version = System.getenv("CI_COMMIT_TAG") ?: System.getenv("CI_COMMIT_SHORT_SHA")?.let { "$it-dev" } ?: "0.0.0"
-
     @get:Input
     public abstract val files: ListProperty<Entry>
 
@@ -20,7 +19,7 @@ public abstract class PatchVersions : DefaultTask() {
             if (!file.exists()) throw IllegalStateException("File $file does not exist")
 
             val content = file.readText()
-            file.writeText(content.replace(entry.regex, version))
+            file.writeText(content.replace(entry.regex, projectVersion))
         }
     }
 }

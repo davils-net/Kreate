@@ -16,7 +16,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 public abstract class GenerateBuildConstants : DefaultTask() {
     private val extension = project.extensions.getByType<KreateExtension>()
-    private val projectName = extension.core.name.getOrElse(project.name)
+    private val projectName = extension.core.name.get()
     private val group = BuildConstants.GROUP
 
     @get:Input
