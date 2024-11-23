@@ -16,7 +16,7 @@ public class Publish(
     override val project: Project,
     override val extension: KreateExtension,
 ) : KreateFeature {
-    private val projectName = extension.core.name.getOrElse(project.name)
+    private val projectName = extension.core.name.getOrElse(project.rootProject.name)
     private val projectDescription = extension.core.description.getOrElse("A Davils project")
     private val projectLicense = extension.core.license.getOrElse(License.ALL_RIGHTS_RESERVED)
     private val projectInceptionYear = extension.publishing.inceptionYear.getOrElse(2024)
