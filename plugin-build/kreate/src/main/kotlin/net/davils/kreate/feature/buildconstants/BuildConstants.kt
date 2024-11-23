@@ -1,17 +1,15 @@
-package net.davils.kreate.buildconstants
+package net.davils.kreate.feature.buildconstants
 
 import net.davils.kreate.KreateExtension
-import net.davils.kreate.KreateFeature
+import net.davils.kreate.utils.isFeatureEnabled
 import net.davils.kreate.build.BuildConstants
+import net.davils.kreate.utils.KreateFeature
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.register
 
-public object BuildConstants : KreateFeature {
-    override fun apply(project: Project, extension: KreateExtension): Unit = project.afterEvaluate {
-        val isBuildConstantsEnabled = extension.buildConstants.enabled.orElse(false).get()
-        if (!isBuildConstantsEnabled) {
-            return@afterEvaluate
-        }
+public class BuildConstants(override val project: Project, override val extension: KreateExtension) : KreateFeature {
+    override fun apply(): Unit = project.afterEvaluate {
+        if (!isFeatureEnabled(extension.buildConstants)) return@afterEvaluate
 
         val task = project.tasks.register<GenerateBuildConstants>("generateBuildConstants") {
             group = BuildConstants.ORGANIZATION_NAME.lowercase()
