@@ -15,6 +15,10 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 public abstract class GenerateBuildConstants : DefaultTask() {
+    private val extension = project.extensions.getByType<KreateExtension>()
+    private val projectName = extension.core.name.getOrElse(project.name)
+    private val group = BuildConstants.GROUP
+
     @get:Input
     public abstract val onlyInternal: Property<Boolean>
 
@@ -23,10 +27,7 @@ public abstract class GenerateBuildConstants : DefaultTask() {
 
     @TaskAction
     internal fun generate() {
-        val content = properties.get().entries.joinToString("\n") {
-            "    const val ${it.key} = \"${it.value}\""
-        }
-        val extension = project.extensions.getByType<KreateExtension>()
+        val content = properties.getOrElse(mapOf()).entries.joinToString("\n") { "const val ${it.key} = \"${it.value}\"" }
         val generatedDir = extension.buildConstants.path(project)
         generatedDir.mkdirs()
 
@@ -35,15 +36,12 @@ public abstract class GenerateBuildConstants : DefaultTask() {
             buildConstantsFile.createNewFile()
         }
 
-        val baseGroup = BuildConstants.GROUP
-        val isInternal = onlyInternal.orElse(false).get()
-        val projectName = extension.core.name.orElse(project.name).get()
-
+        val isInternal = onlyInternal.getOrElse(false)
         buildConstantsFile.writeText("""
-             package $baseGroup.${projectName.lowercase()}.build
+             package $group.${projectName.lowercase()}.build
               
              ${if (isInternal) "internal" else "public"} object BuildConstants {
-             $content
+                $content
              }
         """.trimIndent())
     }
