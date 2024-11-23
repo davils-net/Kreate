@@ -1,4 +1,4 @@
-package net.davils.kreate.core
+package net.davils.kreate.feature.core
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.ListProperty
