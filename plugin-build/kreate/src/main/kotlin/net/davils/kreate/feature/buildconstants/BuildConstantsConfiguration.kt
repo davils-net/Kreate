@@ -1,12 +1,12 @@
-package net.davils.kreate.buildconstants
+package net.davils.kreate.feature.buildconstants
 
+import net.davils.kreate.utils.KreateFeatureConfiguration
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import java.io.File
 
-public interface BuildConstantsConfiguration {
-    public val enabled: Property<Boolean>
+public interface BuildConstantsConfiguration : KreateFeatureConfiguration {
     public val buildPath: Property<String>
     public val sourceSets: Property<KotlinSourceSet>
 }
