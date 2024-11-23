@@ -1,5 +1,6 @@
 package net.davils.kreate
 
+import net.davils.kreate.buildconstants.BuildConstants
 import net.davils.kreate.core.Core
 import net.davils.kreate.publish.Publish
 import org.gradle.api.Plugin
@@ -12,5 +13,6 @@ public class Kreate : Plugin<Project> {
 
         Core.apply(project, extension)
         Publish.apply(project, extension)
+        BuildConstants.apply(project, extension)
     }
 }

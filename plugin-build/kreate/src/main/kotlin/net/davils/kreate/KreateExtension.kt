@@ -1,5 +1,6 @@
 package net.davils.kreate
 
+import net.davils.kreate.buildconstants.BuildConstantsConfiguration
 import net.davils.kreate.core.CoreConfiguration
 import net.davils.kreate.publish.PublishConfiguration
 import org.gradle.api.Action
@@ -11,6 +12,8 @@ public abstract class KreateExtension {
     public abstract val core: CoreConfiguration
     @get:Nested
     public abstract val publishing: PublishConfiguration
+    @get:Nested
+    public abstract val buildConstants: BuildConstantsConfiguration
 
     public fun core(action: Action<CoreConfiguration>) {
         action.execute(core)
@@ -18,6 +21,10 @@ public abstract class KreateExtension {
 
     public fun publishing(action: Action<PublishConfiguration>) {
         action.execute(publishing)
+    }
+
+    public fun buildConstants(action: Action<BuildConstantsConfiguration>) {
+        action.execute(buildConstants)
     }
 }
 
