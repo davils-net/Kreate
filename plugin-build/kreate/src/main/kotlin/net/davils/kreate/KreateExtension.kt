@@ -1,10 +1,10 @@
 package net.davils.kreate
 
-import net.davils.kreate.buildconstants.BuildConstantsConfiguration
-import net.davils.kreate.core.CoreConfiguration
-import net.davils.kreate.publish.PublishConfiguration
+import net.davils.kreate.feature.buildconstants.BuildConstantsConfiguration
+import net.davils.kreate.feature.core.CoreConfiguration
+import net.davils.kreate.feature.cinterop.CinteropConfiguration
+import net.davils.kreate.feature.publish.PublishConfiguration
 import org.gradle.api.Action
-import org.gradle.api.Project
 import org.gradle.api.tasks.Nested
 
 public abstract class KreateExtension {
@@ -14,6 +14,8 @@ public abstract class KreateExtension {
     public abstract val publishing: PublishConfiguration
     @get:Nested
     public abstract val buildConstants: BuildConstantsConfiguration
+    @get:Nested
+    public abstract val cinterop: CinteropConfiguration
 
     public fun core(action: Action<CoreConfiguration>) {
         action.execute(core)
@@ -26,8 +28,8 @@ public abstract class KreateExtension {
     public fun buildConstants(action: Action<BuildConstantsConfiguration>) {
         action.execute(buildConstants)
     }
-}
 
-public interface KreateFeature {
-    public fun apply(project: Project, extension: KreateExtension)
+    public fun cinterop(action: Action<CinteropConfiguration>) {
+        action.execute(cinterop)
+    }
 }
