@@ -1,4 +1,4 @@
-package net.davils.kreate.buildconstants
+package net.davils.kreate.feature.buildconstants
 
 import net.davils.kreate.KreateExtension
 import net.davils.kreate.build.BuildConstants
