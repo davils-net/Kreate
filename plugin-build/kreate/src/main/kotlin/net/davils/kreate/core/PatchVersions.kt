@@ -10,17 +10,19 @@ public abstract class PatchVersions : DefaultTask() {
     private val version = System.getenv("CI_COMMIT_TAG") ?: System.getenv("CI_COMMIT_SHORT_SHA")?.let { "$it-dev" } ?: "0.0.0"
 
     @get:Input
-    public abstract val files: ListProperty<File>
+    public abstract val files: ListProperty<Entry>
 
     @TaskAction
     internal fun patch() {
         val files = files.get()
-        files.forEach { file ->
+        files.forEach { entry ->
+            val file = entry.file
             if (!file.exists()) throw IllegalStateException("File $file does not exist")
 
             val content = file.readText()
-            val regex = Regex("\\d+\\.\\d+\\.\\d+")
-            file.writeText(content.replace(regex, version))
+            file.writeText(content.replace(entry.regex, version))
         }
     }
 }
+
+public data class Entry(public val file: File, public val regex: Regex)
