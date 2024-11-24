@@ -4,6 +4,7 @@ import net.davils.kreate.feature.buildconstants.DefaultBuildConstantsConfigurati
 import net.davils.kreate.feature.cinterop.DefaultCinteropConfiguration
 import net.davils.kreate.feature.core.DefaultCoreConfiguration
 import net.davils.kreate.feature.publish.DefaultPublishConfiguration
+import net.davils.kreate.feature.testing.DefaultTestingConfiguration
 import org.gradle.api.Action
 import org.gradle.api.tasks.Nested
 
@@ -16,6 +17,8 @@ public abstract class KreateExtension {
     public abstract val buildConstants: DefaultBuildConstantsConfiguration
     @get:Nested
     public abstract val cinterop: DefaultCinteropConfiguration
+    @get:Nested
+    public abstract val testing: DefaultTestingConfiguration
 
     public fun core(action: Action<DefaultCoreConfiguration>) {
         action.execute(core)
@@ -31,5 +34,9 @@ public abstract class KreateExtension {
 
     public fun cinterop(action: Action<DefaultCinteropConfiguration>) {
         action.execute(cinterop)
+    }
+
+    public fun testing(action: Action<DefaultTestingConfiguration>) {
+        action.execute(testing)
     }
 }
