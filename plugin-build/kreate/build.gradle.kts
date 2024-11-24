@@ -6,6 +6,7 @@ plugins {
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 }
 
 dependencies {
@@ -43,5 +44,6 @@ buildConstants {
         "ORGANIZATION_NAME" to Project.ORGANIZATION_NAME,
         "ORGANISATION_URL" to Project.ORGANISATION_URL,
         "ORGANISATION_EMAIL" to Project.ORGANIZATION_EMAIL,
+        "GROUP" to "net.davils"
     )
 }
