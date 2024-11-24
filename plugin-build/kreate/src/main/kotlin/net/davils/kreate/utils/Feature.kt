@@ -3,6 +3,7 @@ package net.davils.kreate.utils
 import net.davils.kreate.KreateExtension
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
+import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
 public interface KreateFeature {
     public val project: Project
@@ -23,4 +24,6 @@ public interface KreateFeatureConfiguration {
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-internal fun isFeatureEnabled(configuration: KreateFeatureConfiguration): Boolean = configuration.enabled.orElse(false).get()
+internal fun isFeatureEnabled(configuration: KreateFeatureConfiguration): Boolean = configuration.enabled.getOrElse(false)
+
+internal fun isMultiplatform(project: Project): Boolean = project.plugins.any { it is KotlinMultiplatformPluginWrapper }
