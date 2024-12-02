@@ -1,30 +1,63 @@
 package net.davils.kreate.feature.core
 
 import net.davils.kreate.build.BuildConstants
-import org.gradle.api.Project
+import net.davils.kreate.feature.Task
+import org.gradle.api.tasks.TaskAction
 
+/**
+ * Available licenses for davils projects.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
 public enum class License(public val value: String, public val text: String) {
     MIT("MIT", mit),
     ALL_RIGHTS_RESERVED("All rights reserved", allRightsReserved);
 
     public companion object {
+        /**
+         * Gets a license by its name.
+         *
+         * @param name The name of the license.
+         * @return If a [License] is found, it will be returned, otherwise `null`.
+         *
+         * @since 0.0.1
+         * @author Nils Jäkel
+         * */
         public fun byName(name: String): License? = values().firstOrNull { it.value == name }
     }
 }
 
-internal fun generateLicense(project: Project, license: License) {
-    val licenseFile = project.rootProject.file("LICENSE")
-    if (licenseFile.exists() && licenseFile.readText().isNotEmpty()) return
+public abstract class GenerateLicense : Task() {
+    private val license = extension.core.license.get()
 
-    if (!licenseFile.exists()) {
-        licenseFile.createNewFile()
+    @TaskAction
+    override fun execute() {
+        val licenseFile = project.rootProject.file("LICENSE")
+        if (licenseFile.exists() && licenseFile.readText().isNotEmpty()) return
+
+        if (!licenseFile.exists()) {
+            licenseFile.createNewFile()
+        }
+
+        licenseFile.writeText(license.text)
     }
-
-    licenseFile.writeText(license.text)
 }
 
-internal const val HEADER = "Copyright © 2024 ${BuildConstants.ORGANIZATION_NAME}"
+/**
+ * The header for license files.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
+internal const val HEADER = "Copyright 2024 ${BuildConstants.ORGANIZATION_NAME}"
 
+/**
+ * The text for the MIT license.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
 internal val mit = """
     MIT License
     $HEADER
@@ -47,6 +80,12 @@ internal val mit = """
     THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """.trimIndent()
 
+/**
+ * The text for the `All rights reserved` license.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
 internal val allRightsReserved: String = """
     All rights reserved
     $HEADER
