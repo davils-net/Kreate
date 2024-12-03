@@ -1,3 +1,10 @@
+/*
+ * All rights reserved
+ * Copyright 2024 Davils
+ *
+ * Unauthorized copying, distribution, or modification of this work is strictly prohibited.
+ */
+
 package net.davils.kreate.feature.testing
 
 import io.kotest.framework.multiplatform.gradle.KotestMultiplatformCompilerGradlePlugin

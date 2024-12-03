@@ -1,3 +1,10 @@
+/*
+ * All rights reserved
+ * Copyright 2024 Davils
+ *
+ * Unauthorized copying, distribution, or modification of this work is strictly prohibited.
+ */
+
 package net.davils.kreate.utils
 
 import net.davils.kreate.KreateExtension

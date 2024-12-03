@@ -1,7 +1,11 @@
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
-}
+/*
+ * All rights reserved
+ * Copyright 2024 Davils
+ *
+ * Unauthorized copying, distribution, or modification of this work is strictly prohibited.
+ */
+
 rootProject.name = "Kreate"
 
-include("example")
+include(":example")
 includeBuild("plugin-build")

@@ -1,3 +1,10 @@
+/*
+ * All rights reserved
+ * Copyright 2024 Davils
+ *
+ * Unauthorized copying, distribution, or modification of this work is strictly prohibited.
+ */
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
