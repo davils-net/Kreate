@@ -62,5 +62,5 @@ public data class Entry(
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    public val regex: String,
+    public val regex: Regex,
 )
