@@ -11,6 +11,12 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.kotlin.dsl.*
 
+/**
+ * Represents the publishing feature.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
 public class Publish(
     override val project: Project,
     override val extension: KreateExtension,
@@ -24,9 +30,9 @@ public class Publish(
         if (!isFeatureEnabled(extension.publish)) return@afterEvaluate
 
         require(projectInceptionYear >= 2024) { "The inception year must be at least 2024" }
-        project.pluginManager.apply(MavenPublishPlugin::class)
+        pluginManager.apply(MavenPublishPlugin::class)
 
-        project.extensions.configure(PublishingExtension::class) {
+        extensions.configure(PublishingExtension::class) {
             publications.withType<MavenPublication> {
                 pom {
                     pomConfiguration(this)
@@ -36,6 +42,14 @@ public class Publish(
         }
     }
 
+    /**
+     * Applies the pom configuration.
+     *
+     * @param pom The maven pom to apply the configuration to.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
     private fun pomConfiguration(pom: MavenPom) {
         pom.name.set(projectName)
         pom.description.set(projectDescription)

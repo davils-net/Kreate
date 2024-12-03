@@ -7,14 +7,22 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.credentials
 import java.net.URI
 
+/**
+ * Adds the gitlab maven repository to the [PublishingExtension].
+ *
+ * @param publishExtension The publishing extension.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
 internal fun publishRepository(publishExtension: PublishingExtension) {
     val jobToken = System.getenv("CI_JOB_TOKEN") ?: return
-    val projectId = System.getenv(/* name = */ "CI_PROJECT_ID")
-    val apiV4 = System.getenv(/* name = */ "CI_API_V4_URL")
+    val projectId = System.getenv("CI_PROJECT_ID")
+    val apiV4 = System.getenv("CI_API_V4_URL")
 
     publishExtension.repositories {
         maven {
-            name = "GitLab"
+            name = "Davils GitLab"
             url = URI("$apiV4/projects/$projectId/packages/maven")
             authentication {
                 create<HttpHeaderAuthentication>("token") {
