@@ -1,15 +1,27 @@
 package net.davils.kreate.feature.cinterop
 
-import org.gradle.api.DefaultTask
+import net.davils.kreate.feature.Task
 import org.gradle.api.tasks.TaskAction
 
-public abstract class CompileRust : DefaultTask() {
-    private val rustConf = rustProject(project)
+/**
+ * Task to compile the rust project.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
+public abstract class CompileRust : Task() {
+    /**
+     * The rust project to compile.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    private val rustProject = rustProject(project, extension)
 
     @TaskAction
-    public fun compile() {
+    override fun execute() {
         val builder = ProcessBuilder("cargo", "build", "--release")
-        builder.directory(rustConf.second.resolve(rustConf.first))
+        builder.directory(rustProject.file.resolve(rustProject.name))
 
         val process = builder.start()
         process.waitFor()

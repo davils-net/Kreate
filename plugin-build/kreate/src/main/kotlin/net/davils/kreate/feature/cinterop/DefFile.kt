@@ -1,17 +1,43 @@
 package net.davils.kreate.feature.cinterop
 
+import net.davils.kreate.feature.Task
 import net.davils.kreate.utils.os
-import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.TaskAction
 import net.davils.kreate.utils.OsType
+import org.gradle.api.tasks.TaskAction
 
-public abstract class GenerateDefFiles : DefaultTask() {
-    private val rustConf = rustProject(project)
-    private val includeDir = rustConf.second.resolve(rustConf.first).resolve("include")
+/**
+ * Task to generate the def file.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
+public abstract class GenerateDefFiles : Task() {
+    /**
+     * The rust project.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    private val rustProject = rustProject(project, extension)
+
+    /**
+     * The include directory for the h-file.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    private val includeDir = rustProject.file.resolve(rustProject.name).resolve("include")
+
+    /**
+     * The native cinterop directory for the def file.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
     private val nativeCInteropDir = project.rootProject.file("cinterop")
 
     @TaskAction
-    public fun generate() {
+    override fun execute() {
         val hFile = includeDir.list()?.joinToString(" ") ?: throw IllegalStateException("No header file found in $includeDir")
 
         nativeCInteropDir.mkdirs()
@@ -25,9 +51,9 @@ public abstract class GenerateDefFiles : DefaultTask() {
                 defFile.writeText(
                     """
                     headers = $hFile
-                    staticLibraries = ${rustConf.first.removeSuffix("-rust")}.lib
+                    staticLibraries = ${rustProject.name.removeSuffix("-rust")}.lib
                     compilerOpts = -I${includeDir.absolutePath.replace("\\", "/")}
-                    libraryPaths = ${rustConf.second.resolve("target/release").absolutePath.replace("\\", "/")}
+                    libraryPaths = ${rustProject.file.resolve("target/release").absolutePath.replace("\\", "/")}
                 """.trimIndent()
                 )
             }
@@ -36,9 +62,9 @@ public abstract class GenerateDefFiles : DefaultTask() {
                 defFile.writeText(
                     """
                     headers = $hFile
-                    staticLibraries = lib${rustConf.first.removeSuffix("-rust")}.a
+                    staticLibraries = lib${rustProject.name.removeSuffix("-rust")}.a
                     compilerOpts = -I$includeDir
-                    libraryPaths = ${rustConf.second.resolve("target/release")}
+                    libraryPaths = ${rustProject.file.resolve("target/release")}
                 """.trimIndent()
                 )
             }
