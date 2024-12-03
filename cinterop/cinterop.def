@@ -1,0 +1,4 @@
+headers = example.h
+staticLibraries = libexample.a
+compilerOpts = -I/mnt/storage/Development/Davils/Kreate/example-rust/include
+libraryPaths = /mnt/storage/Development/Davils/Kreate/target/release
