@@ -12,6 +12,12 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.withType
 
+/**
+ * Represents the testing feature.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
 public class Testing(override val project: Project, override val extension: KreateExtension) : KreateFeature {
     override fun apply(): Unit = project.afterEvaluate {
         if (!isFeatureEnabled(extension.testing)) return@afterEvaluate
