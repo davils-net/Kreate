@@ -8,9 +8,12 @@
 package net.davils.kreate.feature
 
 import net.davils.kreate.KreateExtension
+import net.davils.kreate.build.BuildConstants
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
@@ -41,7 +44,7 @@ public abstract class Task : DefaultTask() {
     public abstract fun execute()
 }
 
-internal fun Project.execTaskBeforeCompile(task: org.gradle.api.Task) {
+internal fun Project.execTaskBeforeCompile(task: Task) {
     tasks.withType<KotlinCompilationTask<*>> {
         dependsOn(task)
     }
@@ -51,6 +54,14 @@ internal fun Project.execTaskBeforeCompile(task: org.gradle.api.Task) {
     }
 }
 
-internal fun registerTask(task: Task, name: String, description: String) {
-
+internal inline fun <reified T : Task> Project.registerTask(
+    name: String,
+    description: String,
+    noinline inject: T.() -> Unit = {},
+): TaskProvider<T?> {
+    return tasks.register(name, T::class.java) {
+        this.group = BuildConstants.ORGANIZATION_NAME.lowercase()
+        this.description = description
+        inject(this)
+    }
 }
