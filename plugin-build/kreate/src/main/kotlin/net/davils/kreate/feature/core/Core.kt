@@ -8,13 +8,12 @@
 package net.davils.kreate.feature.core
 
 import net.davils.kreate.KreateExtension
-import net.davils.kreate.build.BuildConstants
+import net.davils.kreate.feature.registerTask
 import net.davils.kreate.utils.KreateFeature
 import net.davils.kreate.utils.isFeatureEnabled
 import net.davils.kreate.utils.isMultiplatform
 import net.davils.kreate.utils.projectVersion
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.register
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
@@ -41,15 +40,8 @@ public class Core(override val project: Project, override val extension: KreateE
                 }
             }
 
-            tasks.register<GenerateLicense>("generateLicense") {
-                group = BuildConstants.ORGANIZATION_NAME.lowercase()
-                description = "Generates the license for the current project."
-            }
-
-            tasks.register<VersionPatch>("patchVersion") {
-                group = BuildConstants.ORGANIZATION_NAME.lowercase()
-                description = "Patches all given files with the version of this the project"
-            }
+            registerTask<GenerateLicense>("generateLicense", "Generates the license for the current project.")
+            registerTask<VersionPatch>("patchVersions", "Patches all given files with the project version.")
         }
     }
 }

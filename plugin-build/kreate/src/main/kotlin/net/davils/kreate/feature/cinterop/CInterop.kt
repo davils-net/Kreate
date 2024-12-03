@@ -8,11 +8,11 @@
 package net.davils.kreate.feature.cinterop
 
 import net.davils.kreate.KreateExtension
+import net.davils.kreate.feature.execTaskBeforeCompile
 import org.gradle.api.Project
 import net.davils.kreate.utils.isFeatureEnabled
 import net.davils.kreate.utils.KreateFeature
-import org.gradle.kotlin.dsl.register
-import net.davils.kreate.build.BuildConstants
+import net.davils.kreate.feature.registerTask
 import net.davils.kreate.utils.isMultiplatform
 
 /**
@@ -25,33 +25,35 @@ public class CInterop(override val project: Project, override val extension: Kre
     override fun apply(): Unit = project.afterEvaluate {
         if (!isFeatureEnabled(extension.cinterop) || !isMultiplatform(project)) return@afterEvaluate
 
-        val generationTask = tasks.register<SetupRustProject>("setupRustProject") {
-            group = BuildConstants.ORGANIZATION_NAME.lowercase()
-            description = "Generates the Cinterop project for the current project."
-        }
+        val generationTask = registerTask<SetupRustProject>(
+            "setupRustProject",
+            "Generates the Rust project for the native implementation."
+        )
 
-        val configureCargo = tasks.register<ConfigureCargo>("configureCargo") {
-            group = BuildConstants.ORGANIZATION_NAME.lowercase()
-            description = "Configures Cargo for the current project."
+        val configureCargo = registerTask<ConfigureCargo>(
+            "configureCargo",
+            "Configures the Cargo for the rust project."
+        ) {
             dependsOn(generationTask)
         }
 
-        val configureBuildScript = tasks.register<ConfigureBuildScript>("configureBuildScript") {
-            group = BuildConstants.ORGANIZATION_NAME.lowercase()
-            description = "Configures the build script for the current project."
+        val configureBuildScript = registerTask<ConfigureBuildScript>(
+            "configureBuildScript",
+            "Configures the build script for the rust project."
+        ) {
             dependsOn(configureCargo)
         }
 
-        val compileTask = tasks.register<CompileRust>("compileRust") {
-            group = BuildConstants.ORGANIZATION_NAME.lowercase()
-            description = "Compiles the Rust project"
+        val compileRust = registerTask<CompileRust>("compileRust", "Compiles the Rust project.") {
             dependsOn(configureBuildScript)
         }
 
-        tasks.register<GenerateDefFiles>("generateDefFiles") {
-            group = BuildConstants.ORGANIZATION_NAME.lowercase()
-            description = "Generates the def files."
-            dependsOn(compileTask)
+        val generateDefinitionFiles = registerTask<GenerateDefinitionFiles>(
+            "generateDefinitionFiles",
+            "Generates the definition file as bridge for the kotlin compiler."
+        ) {
+            dependsOn(compileRust)
         }
+        execTaskBeforeCompile(generateDefinitionFiles.get())
     }
 }
