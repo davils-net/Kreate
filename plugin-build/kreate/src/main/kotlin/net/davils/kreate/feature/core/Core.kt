@@ -11,9 +11,12 @@ import net.davils.kreate.KreateExtension
 import net.davils.kreate.build.BuildConstants
 import net.davils.kreate.utils.KreateFeature
 import net.davils.kreate.utils.isFeatureEnabled
+import net.davils.kreate.utils.isMultiplatform
 import net.davils.kreate.utils.projectVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.register
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 /**
  * Represents the core feature.
@@ -27,6 +30,16 @@ public class Core(override val project: Project, override val extension: KreateE
 
         project.afterEvaluate {
             if (!isFeatureEnabled(extension.core)) return@afterEvaluate
+
+            if (!isMultiplatform(project)) {
+                project.extensions.configure<KotlinJvmProjectExtension>("kotlin") {
+                    explicitApi()
+                }
+            } else {
+                project.extensions.configure<KotlinMultiplatformExtension>("kotlin") {
+                    explicitApi()
+                }
+            }
 
             tasks.register<GenerateLicense>("generateLicense") {
                 group = BuildConstants.ORGANIZATION_NAME.lowercase()
