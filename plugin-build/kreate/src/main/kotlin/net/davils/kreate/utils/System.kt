@@ -1,13 +1,28 @@
 package net.davils.kreate.utils
 
-public enum class OsType(public val value: String) {
+/**
+ * Represents the operating systems.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
+internal enum class OsType(val value: String) {
     WINDOWS("windows"),
     LINUX("linux"),
     MACOS("macos"),
     UNKNOWN("unknown");
 }
 
-public val os: OsType by lazy {
+/**
+ * Resolves the [OsType] as [Lazy] property.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ *
+ * @see OsType
+ * @see Lazy
+ * */
+internal val os: OsType by lazy {
     val osName = System.getProperty("os.name").lowercase()
     when {
         osName.contains(other = "win") -> OsType.WINDOWS
@@ -17,6 +32,17 @@ public val os: OsType by lazy {
     }
 }
 
+/**
+ * Resolves the current project version as [Lazy] property.
+ *
+ * The default version is `0.0.0`, but it uses the `CI_COMMIT_SHORT_SHA` or `CI_COMMIT_TAG` environment variables
+ * from the Gitlab CI pipeline to set the version in production.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ *
+ * @see Lazy
+ * */
 internal val projectVersion: String by lazy {
     System.getenv("CI_COMMIT_TAG") ?: System.getenv("CI_COMMIT_SHORT_SHA")?.let { "$it-dev" } ?: "0.0.0"
 }
