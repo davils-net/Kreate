@@ -24,6 +24,8 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
  * @author Nils Jäkel
  * */
 public class Core(override val project: Project, override val extension: KreateExtension) : KreateFeature {
+    private val isExplicitApiMode = extension.core.isExplicitApiMode.get()
+
     override fun apply() {
         project.version = projectVersion
 
@@ -32,11 +34,16 @@ public class Core(override val project: Project, override val extension: KreateE
 
             if (!isMultiplatform(project)) {
                 project.extensions.configure<KotlinJvmProjectExtension>("kotlin") {
-                    explicitApi()
+                    if (isExplicitApiMode) {
+                        explicitApi()
+                    }
                 }
             } else {
                 project.extensions.configure<KotlinMultiplatformExtension>("kotlin") {
-                    explicitApi()
+                    if (isExplicitApiMode) {
+                        explicitApi()
+                    }
+                    jvm()
                 }
             }
 

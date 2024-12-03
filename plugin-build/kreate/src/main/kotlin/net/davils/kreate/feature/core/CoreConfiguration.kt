@@ -42,6 +42,14 @@ internal interface CoreConfiguration : KreateFeatureConfiguration {
      * @author Nils Jäkel
      * */
     val license: Property<License>
+
+    /**
+     * The explicit API mode.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    val isExplicitApiMode: Property<Boolean>
 }
 
 /**
@@ -55,4 +63,5 @@ public abstract class DefaultCoreConfiguration @Inject constructor(objects: Obje
     override val name: Property<String> = objects.property(String::class.java).apply { set("Project") }
     override val description: Property<String> = objects.property(String::class.java).apply { set("A Davils project.") }
     override val license: Property<License> = objects.property(License::class.java).apply { set(License.ALL_RIGHTS_RESERVED) }
+    override val isExplicitApiMode: Property<Boolean> = objects.property(Boolean::class.java).apply { set(true) }
 }
