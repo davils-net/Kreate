@@ -20,6 +20,9 @@ out/
 ### Kotlin ###
 .kotlin
 
+### Rust ###
+target
+
 ### Eclipse ###
 .apt_generated
 .classpath
