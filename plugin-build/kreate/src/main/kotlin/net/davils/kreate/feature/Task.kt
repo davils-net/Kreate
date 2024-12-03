@@ -9,8 +9,12 @@ package net.davils.kreate.feature
 
 import net.davils.kreate.KreateExtension
 import org.gradle.api.DefaultTask
+import org.gradle.api.Project
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 /**
  * Represents a kreate task.
@@ -35,4 +39,18 @@ public abstract class Task : DefaultTask() {
      * @author Nils Jäkel
      * */
     public abstract fun execute()
+}
+
+internal fun Project.execTaskBeforeCompile(task: org.gradle.api.Task) {
+    tasks.withType<KotlinCompilationTask<*>> {
+        dependsOn(task)
+    }
+
+    tasks.withType<JavaCompile> {
+        dependsOn(task)
+    }
+}
+
+internal fun registerTask(task: Task, name: String, description: String) {
+
 }
