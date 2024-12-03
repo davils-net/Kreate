@@ -18,7 +18,7 @@ import org.gradle.api.tasks.TaskAction
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-public abstract class GenerateDefFiles : Task() {
+public abstract class GenerateDefinitionFiles : Task() {
     /**
      * The rust project.
      *
