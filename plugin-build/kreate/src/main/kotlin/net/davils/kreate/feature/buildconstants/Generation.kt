@@ -1,33 +1,43 @@
 package net.davils.kreate.feature.buildconstants
 
-import net.davils.kreate.KreateExtension
 import net.davils.kreate.build.BuildConstants
-import org.gradle.api.DefaultTask
-import org.gradle.api.Project
-import org.gradle.api.Task
-import org.gradle.api.provider.MapProperty
-import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Input
+import net.davils.kreate.feature.Task
 import org.gradle.api.tasks.TaskAction
-import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
-public abstract class GenerateBuildConstants : DefaultTask() {
-    private val extension = project.extensions.getByType<KreateExtension>()
+/**
+ * Task to generate the build constants.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
+public abstract class GenerateBuildConstants : Task() {
+    /**
+     * The project name from the build constants file.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
     private val projectName = extension.core.name.get()
+
+    /**
+     * The group from the build constants file.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
     private val group = BuildConstants.GROUP
 
-    @get:Input
-    public abstract val onlyInternal: Property<Boolean>
-
-    @get:Input
-    public abstract val properties: MapProperty<String, String>
-
+    /**
+     * Executes the task.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
     @TaskAction
-    internal fun generate() {
-        val content = properties.getOrElse(mapOf()).entries.joinToString("\n") { "const val ${it.key} = \"${it.value}\"" }
+    override fun execute() {
+        val properties = extension.buildConstants.properties.get()
+
+        val content = properties.entries.joinToString("\n") { "const val ${it.key} = \"${it.value}\"" }
         val generatedDir = extension.buildConstants.path(project)
         generatedDir.mkdirs()
 
@@ -36,23 +46,15 @@ public abstract class GenerateBuildConstants : DefaultTask() {
             buildConstantsFile.createNewFile()
         }
 
-        val isInternal = onlyInternal.getOrElse(false)
-        buildConstantsFile.writeText("""
+        val isInternal = extension.buildConstants.onlyInternal.get()
+        buildConstantsFile.writeText(
+            """
              package $group.${projectName.lowercase()}.build
               
              ${if (isInternal) "internal" else "public"} object BuildConstants {
                 $content
              }
-        """.trimIndent())
-    }
-}
-
-internal fun Project.generateBeforeCompile(task: Task) {
-    tasks.withType<KotlinCompilationTask<*>> {
-        dependsOn(task)
-    }
-
-    project.tasks.withType<JavaCompile> {
-        dependsOn(task)
+            """.trimIndent()
+        )
     }
 }
