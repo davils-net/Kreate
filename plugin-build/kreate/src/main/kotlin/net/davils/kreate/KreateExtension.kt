@@ -8,7 +8,7 @@
 package net.davils.kreate
 
 import net.davils.kreate.feature.buildconstants.DefaultBuildConstantsConfiguration
-import net.davils.kreate.feature.cinterop.DefaultCinteropConfiguration
+import net.davils.kreate.feature.cinterop.DefaultCInteropConfiguration
 import net.davils.kreate.feature.core.DefaultCoreConfiguration
 import net.davils.kreate.feature.docs.DefaultDocsConfiguration
 import net.davils.kreate.feature.publish.DefaultPublishConfiguration
@@ -57,7 +57,7 @@ public abstract class KreateExtension {
      * @author Nils Jäkel
      * */
     @get:Nested
-    public abstract val cinterop: DefaultCinteropConfiguration
+    public abstract val cinterop: DefaultCInteropConfiguration
 
     /**
      * The testing configuration of the plugin.
@@ -121,7 +121,7 @@ public abstract class KreateExtension {
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    public fun cinterop(action: Action<DefaultCinteropConfiguration>) {
+    public fun cinterop(action: Action<DefaultCInteropConfiguration>) {
         action.execute(cinterop)
     }
 
