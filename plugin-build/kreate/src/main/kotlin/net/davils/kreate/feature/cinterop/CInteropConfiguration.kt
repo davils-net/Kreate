@@ -9,7 +9,9 @@ package net.davils.kreate.feature.cinterop
 
 import net.davils.kreate.utils.KreateFeatureConfiguration
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
+import org.jetbrains.kotlin.konan.target.KonanTarget
 import javax.inject.Inject
 
 /**
@@ -18,7 +20,7 @@ import javax.inject.Inject
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-internal interface CinteropConfiguration : KreateFeatureConfiguration {
+internal interface CInteropConfiguration : KreateFeatureConfiguration {
     /**
      * The rust edition.
      *
@@ -28,6 +30,9 @@ internal interface CinteropConfiguration : KreateFeatureConfiguration {
     val edition: Property<String>
     val initialCBindVersion: Property<String>
     val initialLibCVersion: Property<String>
+    val targets: ListProperty<Target>
+
+    fun targets(targets: List<Target>, exclude: List<KonanTarget> = listOf())
 }
 
 /**
@@ -36,9 +41,22 @@ internal interface CinteropConfiguration : KreateFeatureConfiguration {
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-public abstract class DefaultCinteropConfiguration @Inject constructor(objects: ObjectFactory) : CinteropConfiguration {
+public abstract class DefaultCInteropConfiguration @Inject constructor(objects: ObjectFactory) : CInteropConfiguration {
     override val enabled: Property<Boolean> = objects.property(Boolean::class.java).apply { set(false) }
     override val edition: Property<String> = objects.property(String::class.java).apply { set("2021") }
     override val initialCBindVersion: Property<String> = objects.property(String::class.java).apply { set("0.27.0") }
     override val initialLibCVersion: Property<String> = objects.property(String::class.java).apply { set("0.2.164") }
+    override val targets: ListProperty<Target> = objects.listProperty(Target::class.java).apply {set(listOf(Target.LINUX)) }
+
+    override fun targets(targets: List<Target>, exclude: List<KonanTarget>) {
+        val changedTargets: MutableList<Target> = mutableListOf()
+
+        targets.forEach { target ->
+            val itemsToRemove = target.target.filter { t -> exclude.contains(t) }
+            target.target.removeAll(itemsToRemove)
+            changedTargets.add(target)
+        }
+
+        this.targets.set(changedTargets)
+    }
 }

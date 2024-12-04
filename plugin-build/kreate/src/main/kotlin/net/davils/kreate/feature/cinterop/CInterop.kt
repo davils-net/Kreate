@@ -22,8 +22,11 @@ import net.davils.kreate.utils.isMultiplatform
  * @author Nils Jäkel
  * */
 public class CInterop(override val project: Project, override val extension: KreateExtension) : KreateFeature {
+    private val targets = extension.cinterop.targets.get()
+
     override fun apply(): Unit = project.afterEvaluate {
         if (!isFeatureEnabled(extension.cinterop) || !isMultiplatform(project)) return@afterEvaluate
+        applyNativeTargets(project, targets)
 
         val generationTask = registerTask<SetupRustProject>(
             "setupRustProject",
