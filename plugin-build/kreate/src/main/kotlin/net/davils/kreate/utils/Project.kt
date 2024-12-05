@@ -7,6 +7,9 @@
 
 package net.davils.kreate.utils
 
+import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
+
 /**
  * Resolves the current project version as [Lazy] property.
  *
@@ -21,3 +24,14 @@ package net.davils.kreate.utils
 internal val projectVersion: String by lazy {
     System.getenv("CI_COMMIT_TAG") ?: System.getenv("CI_COMMIT_SHORT_SHA")?.let { "$it-dev" } ?: "0.0.0"
 }
+
+/**
+ * Detects if the current project is a multiplatform project.
+ *
+ * @param project The current gradle project.
+ * @return A [Boolean] that indicates if the project is a multiplatform project.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
+internal fun isMultiplatform(project: Project): Boolean = project.plugins.any { it is KotlinMultiplatformPluginWrapper }
