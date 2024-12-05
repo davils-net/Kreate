@@ -46,7 +46,7 @@ public abstract class DefaultCInteropConfiguration @Inject constructor(objects: 
     override val edition: Property<String> = objects.property(String::class.java).apply { set("2021") }
     override val initialCBindVersion: Property<String> = objects.property(String::class.java).apply { set("0.27.0") }
     override val initialLibCVersion: Property<String> = objects.property(String::class.java).apply { set("0.2.164") }
-    override val targets: ListProperty<Target> = objects.listProperty(Target::class.java).apply {set(listOf(Target.LINUX)) }
+    override val targets: ListProperty<Target> = objects.listProperty(Target::class.java).apply { set(listOf(Target.LINUX)) }
 
     override fun targets(targets: List<Target>, exclude: List<KonanTarget>) {
         val changedTargets: MutableList<Target> = mutableListOf()
