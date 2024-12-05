@@ -60,7 +60,7 @@ public abstract class GenerateDefinitionFiles : Task() {
                     headers = $hFile
                     staticLibraries = ${rustProject.name.removeSuffix("-rust")}.lib
                     compilerOpts = -I${includeDir.absolutePath.replace("\\", "/")}
-                    libraryPaths = ${rustProject.file.resolve("target/release").absolutePath.replace("\\", "/")}
+                    libraryPaths = ${rustProject.file.resolve(rustProject.name).resolve("target/release").absolutePath.replace("\\", "/")}
                 """.trimIndent()
                 )
             }
@@ -71,7 +71,7 @@ public abstract class GenerateDefinitionFiles : Task() {
                     headers = $hFile
                     staticLibraries = lib${rustProject.name.removeSuffix("-rust")}.a
                     compilerOpts = -I$includeDir
-                    libraryPaths = ${rustProject.file.resolve("target/release")}
+                    libraryPaths = ${rustProject.file.resolve(rustProject.name).resolve("target/release")}
                 """.trimIndent()
                 )
             }
