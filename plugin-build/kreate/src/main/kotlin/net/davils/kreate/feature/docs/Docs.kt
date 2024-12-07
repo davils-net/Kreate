@@ -8,8 +8,8 @@
 package net.davils.kreate.feature.docs
 
 import net.davils.kreate.KreateExtension
-import net.davils.kreate.utils.KreateFeature
-import net.davils.kreate.utils.isFeatureEnabled
+import net.davils.kreate.feature.KreateFeature
+import net.davils.kreate.feature.isFeatureEnabled
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.getByName
@@ -25,7 +25,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 public class Docs(override val project: Project, override val extension: KreateExtension) : KreateFeature {
     private val isMultiModuleMode = extension.docs.isMultiModuleMode.get()
 
-    override fun apply(): Unit = project.afterEvaluate {
+    override fun register(): Unit = project.afterEvaluate {
         if (!isFeatureEnabled(extension.docs)) return@afterEvaluate
 
         pluginManager.apply(DokkaPlugin::class)
