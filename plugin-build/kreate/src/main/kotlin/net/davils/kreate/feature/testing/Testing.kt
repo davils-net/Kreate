@@ -9,10 +9,10 @@ package net.davils.kreate.feature.testing
 
 import io.kotest.framework.multiplatform.gradle.KotestMultiplatformCompilerGradlePlugin
 import net.davils.kreate.KreateExtension
-import net.davils.kreate.utils.KreateFeature
+import net.davils.kreate.feature.KreateFeature
 import org.gradle.api.Project
-import net.davils.kreate.utils.isFeatureEnabled
-import net.davils.kreate.utils.isMultiplatform
+import net.davils.kreate.feature.isFeatureEnabled
+import net.davils.kreate.isMultiplatform
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
@@ -26,7 +26,7 @@ import org.gradle.kotlin.dsl.withType
  * @author Nils Jäkel
  * */
 public class Testing(override val project: Project, override val extension: KreateExtension) : KreateFeature {
-    override fun apply(): Unit = project.afterEvaluate {
+    override fun register(): Unit = project.afterEvaluate {
         if (!isFeatureEnabled(extension.testing)) return@afterEvaluate
 
         val isMultiplatform = isMultiplatform(project)
