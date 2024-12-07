@@ -7,7 +7,7 @@
 
 package net.davils.kreate.feature.cinterop
 
-import net.davils.kreate.utils.KreateFeatureConfiguration
+import net.davils.kreate.feature.KreateFeatureConfiguration
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
@@ -20,35 +20,50 @@ import javax.inject.Inject
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-internal interface CInteropConfiguration : KreateFeatureConfiguration {
+public abstract class CInteropConfiguration @Inject constructor(objects: ObjectFactory) : KreateFeatureConfiguration {
+    override val enabled: Property<Boolean> = objects.property(Boolean::class.java).apply { set(false) }
     /**
      * The rust edition.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    val edition: Property<String>
-    val initialCBindVersion: Property<String>
-    val initialLibCVersion: Property<String>
-    val targets: ListProperty<Target>
+    public val edition: Property<String> = objects.property(String::class.java).apply { set("2021") }
 
-    fun targets(targets: List<Target>, exclude: List<KonanTarget> = listOf())
-}
+    /**
+     * The initial cbindgen version.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    public val initialCBindVersion: Property<String> = objects.property(String::class.java).apply { set("0.27.0") }
 
-/**
- * Creates the default configuration for the cinterop feature.
- *
- * @since 0.0.1
- * @author Nils Jäkel
- * */
-public abstract class DefaultCInteropConfiguration @Inject constructor(objects: ObjectFactory) : CInteropConfiguration {
-    override val enabled: Property<Boolean> = objects.property(Boolean::class.java).apply { set(false) }
-    override val edition: Property<String> = objects.property(String::class.java).apply { set("2021") }
-    override val initialCBindVersion: Property<String> = objects.property(String::class.java).apply { set("0.27.0") }
-    override val initialLibCVersion: Property<String> = objects.property(String::class.java).apply { set("0.2.164") }
-    override val targets: ListProperty<Target> = objects.listProperty(Target::class.java).apply { set(listOf(Target.LINUX)) }
+    /**
+     * The initial libc version.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    public val initialLibCVersion: Property<String> = objects.property(String::class.java).apply { set("0.2.167") }
 
-    override fun targets(targets: List<Target>, exclude: List<KonanTarget>) {
+    /**
+     * The targets that should be applied for the cinterop.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    public val targets: ListProperty<Target> = objects.listProperty(Target::class.java).apply { set(listOf(Target.LINUX)) }
+
+    /**
+     * Sets the targets that should be applied for the cinterop.
+     *
+     * @param targets The targets that should be applied for the cinterop.
+     * @param exclude The targets that should be excluded from the cinterop.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    public fun targets(targets: List<Target>, exclude: List<KonanTarget> = listOf()) {
         val changedTargets: MutableList<Target> = mutableListOf()
 
         targets.forEach { target ->

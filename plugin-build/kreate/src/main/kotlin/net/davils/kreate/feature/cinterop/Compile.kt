@@ -8,27 +8,35 @@
 package net.davils.kreate.feature.cinterop
 
 import net.davils.kreate.feature.Task
+import net.davils.kreate.Paths
 import org.gradle.api.tasks.TaskAction
 
 /**
- * Task to compile the rust project.
+ * Represents the task to compile the rust project.
  *
  * @since 0.0.1
  * @author Nils Jäkel
  * */
 public abstract class CompileRust : Task() {
     /**
-     * The rust project to compile.
+     * The path handler.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    private val rustProject = rustProject(project, extension)
+    private val paths = Paths(project)
 
+    /**
+     * The task action.
+     * It compiles the rust project.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
     @TaskAction
     override fun execute() {
         val builder = ProcessBuilder("cargo", "build", "--release")
-        builder.directory(rustProject.file.resolve(rustProject.name))
+        builder.directory(paths.rustDir)
 
         val process = builder.start()
         process.waitFor()

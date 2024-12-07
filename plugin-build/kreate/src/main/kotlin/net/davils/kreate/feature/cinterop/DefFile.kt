@@ -8,70 +8,61 @@
 package net.davils.kreate.feature.cinterop
 
 import net.davils.kreate.feature.Task
-import net.davils.kreate.utils.os
-import net.davils.kreate.utils.OsType
+import net.davils.kreate.os
+import net.davils.kreate.OsType
+import net.davils.kreate.Paths
 import org.gradle.api.tasks.TaskAction
 
 /**
- * Task to generate the def file.
+ * Represents the task to generate the cinterop definition file.
  *
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-public abstract class GenerateDefinitionFiles : Task() {
+public abstract class GenerateDefinitionFile : Task() {
     /**
-     * The rust project.
+     * The path handler.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    private val rustProject = rustProject(project, extension)
+    private val paths = Paths(project)
 
     /**
-     * The include directory for the h-file.
+     * The task action.
+     * It generates the cinterop definition file.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    private val includeDir = rustProject.file.resolve(rustProject.name).resolve("include")
-
-    /**
-     * The native cinterop directory for the def file.
-     *
-     * @since 0.0.1
-     * @author Nils Jäkel
-     * */
-    private val nativeCInteropDir = project.rootProject.file("cinterop")
-
     @TaskAction
     override fun execute() {
-        val hFile = includeDir.list()?.joinToString(" ") ?: throw IllegalStateException("No header file found in $includeDir")
+        val hFile = paths.includeDir.list()?.joinToString(" ") ?: throw IllegalStateException("No header file found in ${paths.includeDir}")
 
-        nativeCInteropDir.mkdirs()
-        val defFile = nativeCInteropDir.resolve("cinterop.def")
-        if (!defFile.exists()) {
-            defFile.createNewFile()
+        paths.cinteropDir.mkdirs()
+        if (!paths.cinteropFile.exists()) {
+            paths.cinteropFile.createNewFile()
         }
 
         when (os) {
             OsType.WINDOWS -> {
-                defFile.writeText(
+                paths.cinteropFile.writeText(
                     """
                     headers = $hFile
-                    staticLibraries = ${rustProject.name.removeSuffix("-rust")}.lib
-                    compilerOpts = -I${includeDir.absolutePath.replace("\\", "/")}
-                    libraryPaths = ${rustProject.file.resolve(rustProject.name).resolve("target/release").absolutePath.replace("\\", "/")}
-                """.trimIndent()
+                    staticLibraries = ${paths.rustDir.name.removeSuffix("-rust")}.lib
+                    compilerOpts = -I${paths.includeDir.absolutePath.replace("\\", "/")}
+                    libraryPaths = ${paths.rustRelease.absolutePath.replace("\\", "/")}
+                    """.trimIndent()
                 )
             }
 
             else -> {
-                defFile.writeText(
+                paths.cinteropFile.writeText(
                     """
                     headers = $hFile
-                    staticLibraries = lib${rustProject.name.removeSuffix("-rust")}.a
-                    compilerOpts = -I$includeDir
-                    libraryPaths = ${rustProject.file.resolve(rustProject.name).resolve("target/release")}
+                    staticLibraries = lib${paths.rustDir.name.removeSuffix("-rust")}.a
+                    compilerOpts = -I${paths.includeDir}
+                    libraryPaths = ${paths.rustRelease.absolutePath}
                 """.trimIndent()
                 )
             }
