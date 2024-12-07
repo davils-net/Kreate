@@ -19,7 +19,7 @@ import org.gradle.api.tasks.TaskAction
  * */
 public abstract class GenerateBuildConstants : Task() {
     /**
-     * The project name from the build constants file.
+     * The name of the current gradle project.
      *
      * @since 0.0.1
      * @author Nils Jäkel
@@ -27,15 +27,9 @@ public abstract class GenerateBuildConstants : Task() {
     private val projectName = extension.core.name.get()
 
     /**
-     * The group from the build constants file.
-     *
-     * @since 0.0.1
-     * @author Nils Jäkel
-     * */
-    private val group = BuildConstants.GROUP
-
-    /**
-     * Executes the task.
+     * The task action.
+     * It generates the build constants and writes them to a file
+     * to get access to their values at runtime.
      *
      * @since 0.0.1
      * @author Nils Jäkel
@@ -56,7 +50,7 @@ public abstract class GenerateBuildConstants : Task() {
         val isInternal = extension.buildConstants.onlyInternal.get()
         buildConstantsFile.writeText(
             """
-             package $group.${projectName.lowercase()}.build
+             package ${BuildConstants.GROUP}.${projectName.lowercase()}.build
               
              ${if (isInternal) "internal" else "public"} object BuildConstants {
                 $content
