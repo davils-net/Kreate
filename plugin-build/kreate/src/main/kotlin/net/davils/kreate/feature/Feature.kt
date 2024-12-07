@@ -5,53 +5,53 @@
  * Unauthorized copying, distribution, or modification of this work is strictly prohibited.
  */
 
-package net.davils.kreate.utils
+package net.davils.kreate.feature
 
 import net.davils.kreate.KreateExtension
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 
 /**
- * Represents a kreate feature.
+ * Central adapter for all features in kreate.
  *
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-internal interface KreateFeature {
+public interface KreateFeature {
     /**
      * The current gradle project.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    val project: Project
+    public val project: Project
 
     /**
-     * The created kreate extension.
+     * The kreate extension from the current gradle project.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    val extension: KreateExtension
+    public val extension: KreateExtension
 
     /**
-     * Applies the feature to the plugin.
+     * Registers a feature to the plugin.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    fun apply()
+    public fun register()
 }
 
 /**
- * Represents a kreate feature configuration.
+ * Central adapter for all feature configurations in kreate.
  *
  * @since 0.0.1
  * @author Nils Jäkel
  * */
 internal interface KreateFeatureConfiguration {
     /**
-     * Indicates if the feature is enabled.
+     * If the feature is enabled.
      *
      * @since 0.0.1
      * @author Nils Jäkel
@@ -62,8 +62,8 @@ internal interface KreateFeatureConfiguration {
 /**
  * Checks if a kreate feature is enabled.
  *
- * @param configuration The feature configuration
- * @return A [Boolean] that indicates if the feature is enabled
+ * @param configuration The [KreateFeatureConfiguration].
+ * @return A [Boolean] if the feature is enabled.
  *
  * @since 0.0.1
  * @author Nils Jäkel
