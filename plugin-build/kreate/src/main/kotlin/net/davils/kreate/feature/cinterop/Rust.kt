@@ -7,35 +7,40 @@
 
 package net.davils.kreate.feature.cinterop
 
-import net.davils.kreate.KreateExtension
 import net.davils.kreate.build.BuildConstants
 import net.davils.kreate.feature.Task
-import net.davils.kreate.utils.projectVersion
-import org.gradle.api.Project
+import net.davils.kreate.Paths
+import net.davils.kreate.projectVersion
 import org.gradle.api.tasks.TaskAction
-import java.io.File
 
 /**
- * Task to set up the rust project.
+ * Represents the task to set up the rust project.
  *
  * @since 0.0.1
  * @author Nils Jäkel
  * */
 public abstract class SetupRustProject : Task() {
     /**
-     * The rust project.
+     * The path handler.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    private val rustProject = rustProject(project, extension)
+    private val paths = Paths(project)
 
+    /**
+     * The task action.
+     * It sets up the rust project.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
     @TaskAction
     override fun execute() {
-        if (rustProject.file.resolve(rustProject.name).exists()) return
+        if (paths.rustDir.exists()) return
 
-        val builder = ProcessBuilder("cargo", "new", rustProject.name, "--lib")
-        builder.directory(rustProject.file)
+        val builder = ProcessBuilder("cargo", "new", paths.rustDir.name, "--lib")
+        builder.directory(paths.rootProjectDir)
 
         val process = builder.start()
         process.waitFor()
@@ -43,20 +48,27 @@ public abstract class SetupRustProject : Task() {
 }
 
 /**
- * Task to configure cargo.
+ * Represents the task to configure Cargo.
  *
  * @since 0.0.1
  * @author Nils Jäkel
  * */
 public abstract class ConfigureCargo : Task() {
     /**
-     * The rust project.
+     * The path handler.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    private val rustProject = rustProject(project, extension)
+    private val paths = Paths(project)
 
+    /**
+     * The task action.
+     * It configures the Cargo.toml file.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
     @TaskAction
     override fun execute() {
         val name = extension.core.name.get().lowercase()
@@ -84,21 +96,32 @@ public abstract class ConfigureCargo : Task() {
              [dependencies]
              libc = "$libCVersion"
         """.trimIndent()
-
-        val cargoToml = rustProject.file.resolve(rustProject.name).resolve("Cargo.toml")
-        cargoToml.writeText(cargoConfig)
+        paths.cargoToml.writeText(cargoConfig)
     }
 }
 
 /**
- * Task to configure the rust build script.
+ * Represents the task to configure the build script.
  *
  * @since 0.0.1
  * @author Nils Jäkel
  * */
 public abstract class ConfigureBuildScript : Task() {
-    private val rustProject = rustProject(project, extension)
+    /**
+     * The path handler.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    private val paths = Paths(project)
 
+    /**
+     * The task action.
+     * It configures the build.rs file.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
     @TaskAction
     override fun execute() {
         val name = extension.core.name.get().lowercase()
@@ -120,44 +143,6 @@ public abstract class ConfigureBuildScript : Task() {
                      .write_to_file("include/$name.h");
              }
         """.trimIndent()
-
-        val buildRs = rustProject.file.resolve(rustProject.name).resolve("build.rs")
-        buildRs.writeText(buildLogic)
+        paths.buildRs.writeText(buildLogic)
     }
-}
-
-/**
- * The rust project.
- *
- * @since 0.0.1
- * @author Nils Jäkel
- * */
-internal data class RustProject(
-    /**
-     * The name of the rust project.
-     *
-     * @since 0.0.1
-     * @author Nils Jäkel
-     * */
-    val name: String,
-
-    /**
-     * The directory of the rust project.
-     *
-     * @since 0.0.1
-     * @author Nils Jäkel
-     * */
-    val file: File
-)
-
-/**
- * Resolves the rust project.
- *
- * @since 0.0.1
- * @author Nils Jäkel
- * */
-internal fun rustProject(project: Project, extension: KreateExtension): RustProject {
-    val name = extension.core.name.get()
-    val file = project.rootProject.projectDir.absoluteFile
-    return RustProject("$name-rust".lowercase(), file)
 }
