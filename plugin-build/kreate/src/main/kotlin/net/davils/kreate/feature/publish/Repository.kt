@@ -17,7 +17,7 @@ import java.net.URI
 /**
  * Adds the gitlab maven repository to the [PublishingExtension].
  *
- * @param publishExtension The publishing extension.
+ * @param publishExtension The current gradle project publishing extension.
  *
  * @since 0.0.1
  * @author Nils Jäkel
