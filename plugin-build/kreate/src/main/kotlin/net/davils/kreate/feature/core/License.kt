@@ -7,17 +7,34 @@
 
 package net.davils.kreate.feature.core
 
+import net.davils.kreate.Paths
 import net.davils.kreate.build.BuildConstants
 import net.davils.kreate.feature.Task
 import org.gradle.api.tasks.TaskAction
 
 /**
- * Available licenses for davils projects.
+ * Contains all available licenses for davils projects.
  *
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-public enum class License(public val value: String, public val text: String) {
+public enum class License(
+    /**
+     * The name of the license.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    public val value: String,
+
+    /**
+     * The copyright text of the license.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    public val text: String
+) {
     MIT("MIT", mit),
     ALL_RIGHTS_RESERVED("All rights reserved", allRightsReserved);
 
@@ -35,24 +52,50 @@ public enum class License(public val value: String, public val text: String) {
     }
 }
 
+/**
+ * Represents the task to generate the license if it does not exist.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
 public abstract class GenerateLicense : Task() {
+    /**
+     * The configured license.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
     private val license = extension.core.license.get()
 
+    /**
+     * The path handler.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    private val paths = Paths(project)
+
+    /**
+     * The task action. It generates the license if it does not exist and
+     * writes the configured license to it.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
     @TaskAction
     override fun execute() {
-        val licenseFile = project.rootProject.file("LICENSE")
-        if (licenseFile.exists() && licenseFile.readText().isNotEmpty()) return
+        if (paths.license.exists() && paths.license.readText().isNotEmpty()) return
 
-        if (!licenseFile.exists()) {
-            licenseFile.createNewFile()
+        if (!paths.license.exists()) {
+            paths.license.createNewFile()
         }
 
-        licenseFile.writeText(license.text)
+        paths.license.writeText(license.text)
     }
 }
 
 /**
- * The header for license files.
+ * The header for the license files.
  *
  * @since 0.0.1
  * @author Nils Jäkel
@@ -60,7 +103,7 @@ public abstract class GenerateLicense : Task() {
 internal const val HEADER = "Copyright 2024 ${BuildConstants.ORGANIZATION_NAME}"
 
 /**
- * The text for the MIT license.
+ * The copyright text for the `MIT` license.
  *
  * @since 0.0.1
  * @author Nils Jäkel
@@ -88,7 +131,7 @@ internal val mit = """
 """.trimIndent()
 
 /**
- * The text for the `All rights reserved` license.
+ * The copyright text for the `All rights reserved` license.
  *
  * @since 0.0.1
  * @author Nils Jäkel
