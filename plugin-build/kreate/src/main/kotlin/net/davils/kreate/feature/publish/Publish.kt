@@ -9,8 +9,8 @@ package net.davils.kreate.feature.publish
 
 import net.davils.kreate.KreateExtension
 import net.davils.kreate.build.BuildConstants
-import net.davils.kreate.utils.KreateFeature
-import net.davils.kreate.utils.isFeatureEnabled
+import net.davils.kreate.feature.KreateFeature
+import net.davils.kreate.feature.isFeatureEnabled
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
@@ -24,16 +24,13 @@ import org.gradle.kotlin.dsl.*
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-public class Publish(
-    override val project: Project,
-    override val extension: KreateExtension,
-) : KreateFeature {
+public class Publish(override val project: Project, override val extension: KreateExtension) : KreateFeature {
     private val projectName = extension.core.name.get()
     private val projectDescription = extension.core.description.get()
     private val projectLicense = extension.core.license.get()
     private val projectInceptionYear = extension.publish.inceptionYear.get()
 
-    override fun apply(): Unit = project.afterEvaluate {
+    override fun register(): Unit = project.afterEvaluate {
         if (!isFeatureEnabled(extension.publish)) return@afterEvaluate
 
         require(projectInceptionYear >= 2024) { "The inception year must be at least 2024" }
