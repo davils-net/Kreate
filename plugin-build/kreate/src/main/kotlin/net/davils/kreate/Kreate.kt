@@ -25,13 +25,13 @@ import org.gradle.kotlin.dsl.create
  * */
 public class Kreate : Plugin<Project> {
     override fun apply(project: Project) {
-        val extension = project.extensions.create("kreate", KreateExtension::class)
+        val kreateExtension = project.extensions.create("kreate", KreateExtension::class)
 
-        Core(project, extension).apply()
-        CInterop(project, extension).apply()
-        BuildConstants(project, extension).apply()
-        Testing(project, extension).apply()
-        Docs(project, extension).apply()
-        Publish(project, extension).apply()
+        Core(project, kreateExtension).register()
+        CInterop(project, kreateExtension).register()
+        BuildConstants(project, kreateExtension).register()
+        Testing(project, kreateExtension).register()
+        Docs(project, kreateExtension).register()
+        Publish(project, kreateExtension).register()
     }
 }
