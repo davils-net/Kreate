@@ -53,7 +53,9 @@ public class CInterop(override val project: Project, override val extension: Kre
         val generateDefinitionFiles = registerTask<GenerateDefinitionFile>(
             "generateDefinitionFiles",
             "Generates the definition file as bridge for the kotlin compiler."
-        ) { dependsOn(compileRust) }
+        ) {
+            dependsOn(compileRust)
+        }
 
         execTaskBeforeCompile(generateDefinitionFiles.get())
         applyNativeTargets(project, extension)

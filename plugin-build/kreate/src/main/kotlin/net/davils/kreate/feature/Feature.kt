@@ -17,14 +17,14 @@ import org.gradle.api.provider.Property
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-public interface KreateFeature {
+internal interface KreateFeature {
     /**
      * The current gradle project.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    public val project: Project
+    val project: Project
 
     /**
      * The kreate extension from the current gradle project.
@@ -32,7 +32,7 @@ public interface KreateFeature {
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    public val extension: KreateExtension
+    val extension: KreateExtension
 
     /**
      * Registers a feature to the plugin.
@@ -40,7 +40,7 @@ public interface KreateFeature {
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    public fun register()
+    fun register()
 }
 
 /**

@@ -28,6 +28,10 @@ import java.nio.file.Path
  * */
 internal fun applyNativeTargets(project: Project, extension: KreateExtension) {
     val paths = Paths(project)
+    if (!paths.cinteropFile.exists()) {
+        return
+    }
+
     val projectTargets = extension.cinterop.targets.get()
     val cinteropFile = paths.cinteropFile.toPath()
 
