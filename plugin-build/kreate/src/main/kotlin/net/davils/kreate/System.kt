@@ -5,10 +5,10 @@
  * Unauthorized copying, distribution, or modification of this work is strictly prohibited.
  */
 
-package net.davils.kreate.utils
+package net.davils.kreate
 
 /**
- * Represents the operating systems.
+ * Contains all available operating system types.
  *
  * @since 0.0.1
  * @author Nils Jäkel
@@ -21,7 +21,7 @@ internal enum class OsType(val value: String) {
 }
 
 /**
- * Resolves the [OsType] as [Lazy] property.
+ * Gets the [OsType] of the current operating system as [Lazy] property.
  *
  * @since 0.0.1
  * @author Nils Jäkel
