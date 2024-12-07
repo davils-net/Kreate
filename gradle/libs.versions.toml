@@ -11,6 +11,10 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 kotest-gradle-plugin = { module = "io.kotest:kotest-framework-multiplatform-plugin-gradle", version.ref = "kotest" }
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 
+[plugins]
+kreate = { id = "net.davils.kreate" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+
 [bundles]
 build-src = [
     "kotlin-gradle-plugin"

@@ -5,12 +5,12 @@
  * Unauthorized copying, distribution, or modification of this work is strictly prohibited.
  */
 
+import net.davils.kreate.feature.cinterop.Target
 import net.davils.kreate.feature.core.License
-import net.davils.kreate.feature.core.VersionPatch
 
 plugins {
-    id("net.davils.kreate")
-    kotlin("multiplatform") version "2.0.21"
+    alias(deps.plugins.kreate)
+    alias(deps.plugins.kotlin.multiplatform)
 }
 
 repositories {
@@ -33,7 +33,7 @@ kreate {
     buildConstants {
         enabled = false
         buildPath = "generated/templates"
-//        sourceSets = kotlin.sourceSets.getByName("main")
+        sourceSets = kotlin.sourceSets.getByName("commonMain")
         onlyInternal = true
         properties = emptyMap<String, String>()
     }
@@ -43,6 +43,8 @@ kreate {
         edition = "2021"
         initialCBindVersion = "0.27.0"
         initialLibCVersion = "0.2.164"
+
+        targets(listOf(Target.LINUX))
     }
 
     testing {
@@ -54,14 +56,4 @@ kreate {
         enabled = true
         isMultiModuleMode = true
     }
-}
-
-tasks {
-    withType<VersionPatch> {
-        files = listOf()
-    }
-}
-
-kotlin {
-    jvm()
 }
