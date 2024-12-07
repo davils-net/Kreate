@@ -8,9 +8,7 @@
 package net.davils.kreate.feature.core
 
 import net.davils.kreate.feature.Task
-import net.davils.kreate.utils.projectVersion
-import org.gradle.api.provider.ListProperty
-import org.gradle.api.tasks.Input
+import net.davils.kreate.projectVersion
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
@@ -22,23 +20,24 @@ import java.io.File
  * */
 public abstract class VersionPatch : Task() {
     /**
-     * A list of [Entry] to patch.
+     * The files, that should be patched.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    @get:Input
-    public abstract val files: ListProperty<Entry>
+    private val files = extension.core.versionPatchFiles.get()
 
     /**
-     * Executes the task.
+     * The task action.
+     * It replaces the version in the given files with the configured [Regex].
      *
      * @since 0.0.1
      * @author Nils Jäkel
+     *
+     * @see Regex
      * */
     @TaskAction
     override fun execute() {
-        val files = files.get()
         files.forEach { entry ->
             val file = entry.file
             if (!file.exists()) throw IllegalStateException("File $file does not exist")
@@ -51,6 +50,8 @@ public abstract class VersionPatch : Task() {
 
 /**
  * Represents an entry in the [VersionPatch] task.
+ * It contains information about the file, that should be patched and the regex,
+ * that should be replaced with the project version.
  *
  * @since 0.0.1
  * @author Nils Jäkel
