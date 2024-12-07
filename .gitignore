@@ -20,9 +20,6 @@ out/
 ### Kotlin ###
 .kotlin
 
-### Rust ###
-target
-
 ### Eclipse ###
 .apt_generated
 .classpath
@@ -47,3 +44,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Rust ###
+target
+cinterop
