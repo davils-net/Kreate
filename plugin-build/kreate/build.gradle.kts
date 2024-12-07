@@ -25,10 +25,10 @@ gradlePlugin {
     website = Project.ORGANISATION_URL
     plugins {
         register(Project.NAME.lowercase()) {
-            id = Project.GROUP
+            id = "${Project.GROUP}.kreate"
             displayName = Project.NAME
             description = Project.DESCRIPTION
-            implementationClass = "${Project.GROUP}.${Project.NAME}"
+            implementationClass = "${Project.GROUP}.kreate.${Project.NAME}"
         }
     }
 }
@@ -51,6 +51,6 @@ buildConstants {
         "ORGANIZATION_NAME" to Project.ORGANIZATION_NAME,
         "ORGANISATION_URL" to Project.ORGANISATION_URL,
         "ORGANISATION_EMAIL" to Project.ORGANIZATION_EMAIL,
-        "GROUP" to "net.davils"
+        "GROUP" to Project.GROUP
     )
 }

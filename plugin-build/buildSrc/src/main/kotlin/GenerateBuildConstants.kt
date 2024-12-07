@@ -50,7 +50,7 @@ internal fun generateBuildConstants(project: GradleProject, buildConstants: Buil
         outputStream.write(
             """
 // This file is generated automatically. Do not edit or modify!
-package ${Project.GROUP}.build
+package ${Project.GROUP}.kreate.build
 
 internal object BuildConstants {
 $content
