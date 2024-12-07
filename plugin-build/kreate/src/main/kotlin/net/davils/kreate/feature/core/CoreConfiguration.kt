@@ -7,8 +7,9 @@
 
 package net.davils.kreate.feature.core
 
-import net.davils.kreate.utils.KreateFeatureConfiguration
+import net.davils.kreate.feature.KreateFeatureConfiguration
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
@@ -18,50 +19,47 @@ import javax.inject.Inject
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-internal interface CoreConfiguration : KreateFeatureConfiguration {
+public abstract class CoreConfiguration @Inject constructor(objects: ObjectFactory) : KreateFeatureConfiguration {
     /**
-     * The project name.
+     * The name for the current gradle project.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    val name: Property<String>
+    public val name: Property<String> = objects.property(String::class.java).apply { set("Project") }
 
     /**
-     * The project description.
+     * The description for the current gradle project.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    val description: Property<String>
+    public val description: Property<String> = objects.property(String::class.java).apply { set("A Davils project.") }
 
     /**
-     * The [License] for the project.
+     * The [License] for the current gradle project.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     *
+     * @see License
+     * */
+    public val license: Property<License> = objects.property(License::class.java).apply { set(License.ALL_RIGHTS_RESERVED) }
+
+    /**
+     * If the current gradle project should have explicit api mode enabled.
+     * It enforces the declaration of optional visibility modifiers.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    val license: Property<License>
+    public val isExplicitApiMode: Property<Boolean> = objects.property(Boolean::class.java).apply { set(true) }
 
     /**
-     * The explicit API mode.
+     * The entries that should be patched with the project version.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    val isExplicitApiMode: Property<Boolean>
-}
-
-/**
- * The default configuration for the core feature.
- *
- * @since 0.0.1
- * @author Nils Jäkel
- * */
-public abstract class DefaultCoreConfiguration @Inject constructor(objects: ObjectFactory) : CoreConfiguration {
-    override val enabled: Property<Boolean> = objects.property(Boolean::class.java).apply { set(true) }
-    override val name: Property<String> = objects.property(String::class.java).apply { set("Project") }
-    override val description: Property<String> = objects.property(String::class.java).apply { set("A Davils project.") }
-    override val license: Property<License> = objects.property(License::class.java).apply { set(License.ALL_RIGHTS_RESERVED) }
-    override val isExplicitApiMode: Property<Boolean> = objects.property(Boolean::class.java).apply { set(true) }
+    public val versionPatchFiles: ListProperty<Entry> = objects.listProperty(Entry::class.java).apply { set(listOf()) }
 }
