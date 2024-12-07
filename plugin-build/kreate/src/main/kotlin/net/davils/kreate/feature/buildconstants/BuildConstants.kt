@@ -8,8 +8,8 @@
 package net.davils.kreate.feature.buildconstants
 
 import net.davils.kreate.KreateExtension
-import net.davils.kreate.utils.isFeatureEnabled
-import net.davils.kreate.utils.KreateFeature
+import net.davils.kreate.feature.isFeatureEnabled
+import net.davils.kreate.feature.KreateFeature
 import net.davils.kreate.feature.execTaskBeforeCompile
 import net.davils.kreate.feature.registerTask
 import org.gradle.api.Project
@@ -21,7 +21,7 @@ import org.gradle.api.Project
  * @author Nils Jäkel
  * */
 public class BuildConstants(override val project: Project, override val extension: KreateExtension) : KreateFeature {
-    override fun apply(): Unit = project.afterEvaluate {
+    override fun register(): Unit = project.afterEvaluate {
         if (!isFeatureEnabled(extension.buildConstants)) return@afterEvaluate
 
         val task = registerTask<GenerateBuildConstants>(

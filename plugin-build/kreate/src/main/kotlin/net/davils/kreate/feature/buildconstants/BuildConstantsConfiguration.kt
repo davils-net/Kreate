@@ -7,7 +7,7 @@
 
 package net.davils.kreate.feature.buildconstants
 
-import net.davils.kreate.utils.KreateFeatureConfiguration
+import net.davils.kreate.feature.KreateFeatureConfiguration
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.MapProperty
@@ -22,14 +22,14 @@ import javax.inject.Inject
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-internal interface BuildConstantsConfiguration : KreateFeatureConfiguration {
+public abstract class BuildConstantsConfiguration @Inject constructor(objects: ObjectFactory) : KreateFeatureConfiguration {
     /**
      * The path in the build directory.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    val buildPath: Property<String>
+    public val buildPath: Property<String> = objects.property(String::class.java).apply { set("generated/templates") }
 
     /**
      * The source sets to apply the build constants to.
@@ -37,15 +37,15 @@ internal interface BuildConstantsConfiguration : KreateFeatureConfiguration {
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    val sourceSets: Property<KotlinSourceSet>
+    public abstract val sourceSets: Property<KotlinSourceSet>
 
     /**
-     * Indicates whether to only apply the build constants to internal source sets.
+     * If the build constants should be internal.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    val onlyInternal: Property<Boolean>
+    public val onlyInternal: Property<Boolean> = objects.property(Boolean::class.java).apply { set(true) }
 
     /**
      * The properties to add to the build constants.
@@ -53,24 +53,13 @@ internal interface BuildConstantsConfiguration : KreateFeatureConfiguration {
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    val properties: MapProperty<String, String>
+    public val properties: MapProperty<String, String> = objects.mapProperty(String::class.java, String::class.java).apply { set(emptyMap()) }
 }
 
 /**
- * Represents the default configuration for the build constants feature.
+ * Gets the path to the build constants directory.
  *
- * @since 0.0.1
- * @author Nils Jäkel
- * */
-public abstract class DefaultBuildConstantsConfiguration @Inject constructor(objects: ObjectFactory): BuildConstantsConfiguration {
-    override val enabled: Property<Boolean> = objects.property(Boolean::class.java).apply { set(false) }
-    override val buildPath: Property<String> = objects.property(String::class.java).apply { set("generated/templates") }
-    override val onlyInternal: Property<Boolean> = objects.property(Boolean::class.java).apply { set(true) }
-    override val properties: MapProperty<String, String> = objects.mapProperty(String::class.java, String::class.java).apply { set(emptyMap()) }
-}
-
-/**
- * Gets the path to the build constants.
+ * @param project The gradle project in which the build constants should be generated.
  *
  * @since 0.0.1
  * @author Nils Jäkel
