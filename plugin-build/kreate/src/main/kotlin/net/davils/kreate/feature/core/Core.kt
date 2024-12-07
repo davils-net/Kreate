@@ -9,10 +9,10 @@ package net.davils.kreate.feature.core
 
 import net.davils.kreate.KreateExtension
 import net.davils.kreate.feature.registerTask
-import net.davils.kreate.utils.KreateFeature
-import net.davils.kreate.utils.isFeatureEnabled
-import net.davils.kreate.utils.isMultiplatform
-import net.davils.kreate.utils.projectVersion
+import net.davils.kreate.feature.KreateFeature
+import net.davils.kreate.feature.isFeatureEnabled
+import net.davils.kreate.isMultiplatform
+import net.davils.kreate.projectVersion
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -26,7 +26,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 public class Core(override val project: Project, override val extension: KreateExtension) : KreateFeature {
     private val isExplicitApiMode = extension.core.isExplicitApiMode.get()
 
-    override fun apply() {
+    override fun register() {
         project.version = projectVersion
 
         project.afterEvaluate {
