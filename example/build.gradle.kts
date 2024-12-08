@@ -42,12 +42,12 @@ kreate {
     }
 
     publish  {
-        enabled = true
+        enabled = false
         inceptionYear = 2024
     }
 
     buildConstants {
-        enabled = false
+        enabled = true
         buildPath = "generated/templates"
         sourceSets = kotlin.sourceSets.getByName("commonMain")
         onlyInternal = true
