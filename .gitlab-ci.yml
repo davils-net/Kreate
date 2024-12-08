@@ -1,3 +1,5 @@
+image: gradle:jdk8
+
 include:
   - project: davils/templates/gitlab-ci
     file: kotlin-java.yaml
