@@ -29,7 +29,7 @@ internal fun publishRepository(publishExtension: PublishingExtension) {
 
     publishExtension.repositories {
         maven {
-            name = "Davils GitLab"
+            name = "GitLab"
             url = URI("$apiV4/projects/$projectId/packages/maven")
             authentication {
                 create<HttpHeaderAuthentication>("token") {
