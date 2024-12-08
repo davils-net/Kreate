@@ -7,3 +7,8 @@ include:
 variables:
   CINTEROP_ENABLED: "true"
   TESTS_ENABLED: "false"
+
+build:
+  stage: build
+  script:
+    - gradle clean build -x check
