@@ -62,6 +62,20 @@ internal fun Project.execTaskBeforeCompile(task: Task) {
 }
 
 /**
+ * Executes multiple tasks before any compilation.
+ *
+ * @param syncTasks The tasks, that should be executed before compilation.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
+internal fun Project.execTasksBeforeCompile(vararg syncTasks: Task) {
+    syncTasks.forEach { task ->
+        execTaskBeforeCompile(task)
+    }
+}
+
+/**
  * Registers a task in the current gradle project under the group [BuildConstants.ORGANIZATION_NAME].
  *
  * @param name The name of the task.

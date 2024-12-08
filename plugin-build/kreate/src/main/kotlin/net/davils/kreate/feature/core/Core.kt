@@ -10,6 +10,7 @@ package net.davils.kreate.feature.core
 import net.davils.kreate.KreateExtension
 import net.davils.kreate.feature.registerTask
 import net.davils.kreate.feature.KreateFeature
+import net.davils.kreate.feature.execTasksBeforeCompile
 import net.davils.kreate.feature.isFeatureEnabled
 import net.davils.kreate.isMultiplatform
 import net.davils.kreate.projectVersion
@@ -47,8 +48,15 @@ public class Core(override val project: Project, override val extension: KreateE
                 }
             }
 
-            registerTask<GenerateLicense>("generateLicense", "Generates the license for the current project.")
-            registerTask<VersionPatch>("patchVersions", "Patches all given files with the project version.")
+            val license = registerTask<GenerateLicense>(
+                "generateLicense",
+                "Generates the license for the current project."
+            )
+            val versionPatch = registerTask<VersionPatch>(
+                "patchVersions",
+                "Patches all given files with the project version."
+            )
+            execTasksBeforeCompile(license.get(), versionPatch.get())
         }
     }
 }
