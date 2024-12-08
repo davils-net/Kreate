@@ -1,0 +1,7 @@
+include:
+  - project: davils/templates/gitlab-ci
+    file: kotlin-java.yaml
+
+variables:
+  CINTEROP_ENABLED: "true"
+  TESTS_ENABLED: "false"
