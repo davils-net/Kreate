@@ -1,28 +1,45 @@
 # CHANGELOG
-## 0.0.1
+## Version 0.0.1
 ### Features
 #### Core
-- License generator
-  - Generates the license if it does not exist and writes the configured license to it
-- File patcher
-  - Patches all given files and regex with the new content
-- Explicit api mode toggle
-  - Enables/Disables the explicit api mode in kotlin
+- **License Generator**  
+  - Automatically generates and writes a configured license if none exists.
+- **File Patcher**  
+  - Updates specified files and patterns with new content based on provided regex.
+- **Explicit API Mode Toggle**  
+  - Enables or disables explicit API mode for Kotlin projects.
 
 #### Publishing
-  - Gitlab
-    - Adds the publishing configuration for the private gitlab instance
+- **GitLab Integration**  
+  - Adds publishing configuration for private GitLab instances.  
+  - Includes configuration for project credits.
 
 #### Build Constants
+- **Gradle Properties Integration**  
+  - Merges defined properties into build constants.  
+  - Supports custom output paths within the build directory.
 
+#### CInterop
+- **Rust-to-Kotlin Interoperability**  
+  - Automates generation of Rust projects compatible with Kotlin.  
+  - Configures `cargo` and build scripts automatically.  
+  - Compiles Rust code and generates Kotlin cinterop definition files.  
+- **Git Exclusions**  
+  - Automatically excludes unnecessary resources from version control.
 
 #### Testing
-  - Tests reports
-    - Generates the test reports for the current gradle project if enabled
-  - Kotest Multiplatform
-    - Adds on Multiplatform projects the Kotest plugin
-  - 
+- **Test Reports**  
+  - Generates detailed test reports for Gradle projects when enabled.  
+- **Kotest Multiplatform Support**  
+  - Integrates Kotest for Kotlin Multiplatform projects.
 
-### Fixes 
+#### Documentation
+- **Dokka Integration**  
+  - Applies the Dokka plugin for project documentation.  
+- **Multi-Module Support**  
+  - Provides enhanced support for multi-module projects.
 
 ### Dependencies
+- **Kotlin**: 2.1.0  
+- **Kotest**: 6.0.0.M1  
+- **Dokka**: 1.9.20
