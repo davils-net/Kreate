@@ -22,7 +22,7 @@ import org.gradle.kotlin.dsl.getByType
  *
  * @see Lazy
  * */
-internal val projectVersion: String by lazy {
+public val projectVersion: String by lazy {
     System.getenv("CI_COMMIT_TAG") ?: System.getenv("CI_COMMIT_SHORT_SHA")?.let { "$it-dev" } ?: "0.0.0"
 }
 

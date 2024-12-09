@@ -61,5 +61,5 @@ public abstract class CoreConfiguration @Inject constructor(objects: ObjectFacto
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    public val versionPatchFiles: ListProperty<Entry> = objects.listProperty(Entry::class.java).apply { set(listOf()) }
+    public val patchEntries: ListProperty<Entry> = objects.listProperty(Entry::class.java).apply { set(listOf()) }
 }

@@ -8,28 +8,27 @@
 package net.davils.kreate.feature.core
 
 import net.davils.kreate.feature.Task
-import net.davils.kreate.projectVersion
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
 /**
- * Task to patch versions in files, that are not controlled by gradle.
+ * Task to patch content in files, that are not controlled by gradle.
  *
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-public abstract class VersionPatch : Task() {
+public abstract class FilePatch : Task() {
     /**
      * The files, that should be patched.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    private val files = extension.core.versionPatchFiles.get()
+    private val files = extension.core.patchEntries.get()
 
     /**
      * The task action.
-     * It replaces the version in the given files with the configured [Regex].
+     * It replaces the content in the given files with the configured [Regex] and the new content.
      *
      * @since 0.0.1
      * @author Nils Jäkel
@@ -43,13 +42,13 @@ public abstract class VersionPatch : Task() {
             if (!file.exists()) throw IllegalStateException("File $file does not exist")
 
             val content = file.readText()
-            file.writeText(content.replace(entry.regex, projectVersion))
+            file.writeText(content.replace(entry.regex, entry.newContent))
         }
     }
 }
 
 /**
- * Represents an entry in the [VersionPatch] task.
+ * Represents an entry in the [FilePatch] task.
  * It contains information about the file, that should be patched and the regex,
  * that should be replaced with the project version.
  *
@@ -71,4 +70,11 @@ public data class Entry(
      * @author Nils Jäkel
      * */
     public val regex: Regex,
+    /**
+     * The content that should be replaced with the regex.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    public val newContent: String
 )

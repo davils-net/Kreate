@@ -15,7 +15,8 @@ import net.davils.kreate.feature.cinterop.Target
 import net.davils.kreate.feature.core.Entry
 import net.davils.kreate.feature.core.GenerateLicense
 import net.davils.kreate.feature.core.License
-import net.davils.kreate.feature.core.VersionPatch
+import net.davils.kreate.feature.core.FilePatch
+import net.davils.kreate.projectVersion
 import org.gradle.kotlin.dsl.kotlin
 
 plugins {
@@ -33,10 +34,11 @@ kreate {
         name = "example"
         description = "An example project."
         license = License.ALL_RIGHTS_RESERVED
-        versionPatchFiles = listOf(
+        patchEntries = listOf(
             Entry(
                 file = rootProject.projectDir.resolve("docs/writerside.cfg"),
-                regex = Regex("[0-9]+\\.[0-9]+\\.[0-9]+")
+                regex = Regex("[0-9]+\\.[0-9]+\\.[0-9]+"),
+                newContent = projectVersion
             )
         )
     }
@@ -76,7 +78,7 @@ kreate {
 
 tasks {
     withType<GenerateLicense> {  }
-    withType<VersionPatch> {  }
+    withType<FilePatch> {  }
 
     withType<SetupRustProject> {  }
     withType<ConfigureCargo> {  }

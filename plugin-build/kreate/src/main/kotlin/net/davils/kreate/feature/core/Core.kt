@@ -52,11 +52,11 @@ public class Core(override val project: Project, override val extension: KreateE
                 "generateLicense",
                 "Generates the license for the current project."
             )
-            val versionPatch = registerTask<VersionPatch>(
-                "patchVersions",
+            val filePatch = registerTask<FilePatch>(
+                "filePatch",
                 "Patches all given files with the project version."
             )
-            execTasksBeforeCompile(license.get(), versionPatch.get())
+            execTasksBeforeCompile(license.get(), filePatch.get())
         }
     }
 }
