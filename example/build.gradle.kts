@@ -41,6 +41,7 @@ kreate {
                 newContent = projectVersion
             )
         )
+        isExplicitApiMode = true
     }
 
     publish  {
