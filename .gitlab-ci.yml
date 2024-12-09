@@ -1,14 +1,26 @@
-image: gradle:jdk8
-
 include:
   - project: davils/templates/gitlab-ci
+    ref: "main"
     file: kotlin-java.yaml
 
 variables:
   CINTEROP_ENABLED: "true"
   TESTS_ENABLED: "false"
+  JDK_VERSION: "jdk8"
 
 build:
   stage: build
   script:
     - gradle clean build -x check
+
+publish:
+  stage: publish
+  only:
+    - tags
+  needs:
+    - job: build
+      optional: false
+    - job: test
+      optional: true
+  script:
+    - gradle --project-dir plugin-build/kreate publish
