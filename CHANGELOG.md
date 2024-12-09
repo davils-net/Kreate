@@ -11,7 +11,7 @@
 
 #### Publishing
 - **GitLab Integration**  
-  - Adds publishing configuration for private GitLab instances.  
+  - Adds publishing configuration for the private GitLab instance of Davils.  
   - Includes configuration for project credits.
 
 #### Build Constants
