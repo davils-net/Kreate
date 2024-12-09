@@ -1,9 +1,9 @@
 # Kreate
 A Gradle plugin to simplify the creation of Davils projects.
 
-![Kotlin Badge](https://img.shields.io/badge/kotlin-davils?style=flat&logo=kotlin&labelColor=white&color=purple&link=https%3A%2F%2Fkotlinlang.org%2F)  
-![License Badge](https://img.shields.io/badge/ARR-davils?style=flat&logoColor=black&label=license&labelColor=white&color=purple&link=https%3A%2F%2Fkotlinlang.org%2F)  
-![Pipeline Status](https://gitlab.davils.net/davils/tools/kreate/badges/main/pipeline.svg)
+![Kotlin Badge](https://img.shields.io/badge/kotlin-davils?style=flat&logo=kotlin&labelColor=white&color=purple&link=https%3A%2F%2Fkotlinlang.org%2F)
+![License Badge](https://img.shields.io/badge/ARR-davils?style=flat&logoColor=black&label=license&labelColor=white&color=purple&link=https%3A%2F%2Fkotlinlang.org%2F)
+![Pipeline Badge](https://gitlab.davils.net/davils/tools/kreate/badges/main/pipeline.svg)
 
 ## Getting Started
 To use Kreate, add the following repository to your `build.gradle.kts` file:
