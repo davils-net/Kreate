@@ -11,6 +11,8 @@ import net.davils.kreate.feature.Task
 import net.davils.kreate.os
 import net.davils.kreate.OsType
 import net.davils.kreate.Paths
+import net.davils.kreate.feature.isFeatureEnabled
+import net.davils.kreate.isMultiplatform
 import org.gradle.api.tasks.TaskAction
 
 /**
@@ -37,9 +39,11 @@ public abstract class GenerateDefinitionFile : Task() {
      * */
     @TaskAction
     override fun execute() {
-        val hFile = paths.includeDir.list()?.joinToString(" ") ?: throw IllegalStateException("No header file found in ${paths.includeDir}")
+        if (!isFeatureEnabled(extension.cinterop) || !isMultiplatform(project)) return
 
+        val hFile = paths.includeDir.list()?.joinToString(" ") ?: throw IllegalStateException("No header file found in ${paths.includeDir}")
         paths.cinteropDir.mkdirs()
+
         if (!paths.cinteropFile.exists()) {
             paths.cinteropFile.createNewFile()
         }

@@ -9,6 +9,7 @@ package net.davils.kreate.feature.buildconstants
 
 import net.davils.kreate.build.BuildConstants
 import net.davils.kreate.feature.Task
+import net.davils.kreate.feature.isFeatureEnabled
 import org.gradle.api.tasks.TaskAction
 
 /**
@@ -36,6 +37,7 @@ public abstract class GenerateBuildConstants : Task() {
      * */
     @TaskAction
     override fun execute() {
+        if (!isFeatureEnabled(extension.buildConstants)) return
         val properties = extension.buildConstants.properties.get()
 
         val content = properties.entries.joinToString("\n") { "const val ${it.key} = \"${it.value}\"" }

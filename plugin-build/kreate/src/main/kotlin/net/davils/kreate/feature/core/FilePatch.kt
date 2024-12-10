@@ -8,6 +8,7 @@
 package net.davils.kreate.feature.core
 
 import net.davils.kreate.feature.Task
+import net.davils.kreate.feature.isFeatureEnabled
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
@@ -37,6 +38,8 @@ public abstract class FilePatch : Task() {
      * */
     @TaskAction
     override fun execute() {
+        if (!isFeatureEnabled(extension.core)) return
+
         files.forEach { entry ->
             val file = entry.file
             if (!file.exists()) throw IllegalStateException("File $file does not exist")

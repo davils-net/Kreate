@@ -9,6 +9,8 @@ package net.davils.kreate.feature.cinterop
 
 import net.davils.kreate.feature.Task
 import net.davils.kreate.Paths
+import net.davils.kreate.feature.isFeatureEnabled
+import net.davils.kreate.isMultiplatform
 import org.gradle.api.tasks.TaskAction
 
 /**
@@ -34,6 +36,8 @@ public abstract class ExcludeSourcesInGit : Task() {
      * */
     @TaskAction
     override fun execute() {
+        if (!isFeatureEnabled(extension.cinterop) || !isMultiplatform(project)) return
+
         if (!paths.gitignore.exists()) {
             paths.gitignore.createNewFile()
         }

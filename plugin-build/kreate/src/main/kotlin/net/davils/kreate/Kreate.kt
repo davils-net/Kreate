@@ -28,10 +28,10 @@ public class Kreate : Plugin<Project> {
         val kreateExtension = project.extensions.create("kreate", KreateExtension::class)
 
         Core(project, kreateExtension).register()
+        Publish(project, kreateExtension).register()
         CInterop(project, kreateExtension).register()
         BuildConstants(project, kreateExtension).register()
         Testing(project, kreateExtension).register()
         Docs(project, kreateExtension).register()
-        Publish(project, kreateExtension).register()
     }
 }

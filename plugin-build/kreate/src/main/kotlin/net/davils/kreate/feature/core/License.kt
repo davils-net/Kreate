@@ -10,6 +10,7 @@ package net.davils.kreate.feature.core
 import net.davils.kreate.Paths
 import net.davils.kreate.build.BuildConstants
 import net.davils.kreate.feature.Task
+import net.davils.kreate.feature.isFeatureEnabled
 import org.gradle.api.tasks.TaskAction
 
 /**
@@ -84,6 +85,7 @@ public abstract class GenerateLicense : Task() {
      * */
     @TaskAction
     override fun execute() {
+        if (!isFeatureEnabled(extension.core)) return
         if (paths.license.exists() && paths.license.readText().isNotEmpty()) return
 
         if (!paths.license.exists()) {
