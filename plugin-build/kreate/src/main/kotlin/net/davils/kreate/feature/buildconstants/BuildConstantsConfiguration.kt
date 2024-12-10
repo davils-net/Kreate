@@ -23,6 +23,7 @@ import javax.inject.Inject
  * @author Nils Jäkel
  * */
 public abstract class BuildConstantsConfiguration @Inject constructor(objects: ObjectFactory) : KreateFeatureConfiguration {
+    override val enabled: Property<Boolean> = objects.property(Boolean::class.java).apply { set(false) }
     /**
      * The path in the build directory.
      *
