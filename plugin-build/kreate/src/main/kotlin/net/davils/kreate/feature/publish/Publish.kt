@@ -34,7 +34,7 @@ public class Publish(override val project: Project, override val extension: Krea
         if (!isFeatureEnabled(extension.publish)) return@afterEvaluate
 
         require(projectInceptionYear >= 2024) { "The inception year must be at least 2024" }
-        pluginManager.apply(MavenPublishPlugin::class)
+        plugins.apply(MavenPublishPlugin::class)
 
         extensions.configure(PublishingExtension::class) {
             publications.withType<MavenPublication> {
