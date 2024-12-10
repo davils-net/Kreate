@@ -8,9 +8,10 @@
 package net.davils.kreate.feature.buildconstants
 
 import net.davils.kreate.KreateExtension
-import net.davils.kreate.feature.isFeatureEnabled
+import net.davils.kreate.feature.*
 import net.davils.kreate.feature.KreateFeature
 import net.davils.kreate.feature.execTaskBeforeCompile
+import net.davils.kreate.feature.isFeatureEnabled
 import net.davils.kreate.feature.registerTask
 import org.gradle.api.Project
 
@@ -29,6 +30,7 @@ public class BuildConstants(override val project: Project, override val extensio
             description = "Generates the build constants for the current project."
         )
         execTaskBeforeCompile(task.get())
+        execTaskOnSync(task.get())
 
         val sourceSets = extension.buildConstants.sourceSets.orNull ?: throw IllegalArgumentException("sourceSets not configured or not found")
         val path = extension.buildConstants.path(this)
