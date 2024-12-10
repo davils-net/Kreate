@@ -8,10 +8,11 @@
 package net.davils.kreate.feature.core
 
 import net.davils.kreate.KreateExtension
-import net.davils.kreate.feature.registerTask
+import net.davils.kreate.feature.*
 import net.davils.kreate.feature.KreateFeature
 import net.davils.kreate.feature.execTasksBeforeCompile
 import net.davils.kreate.feature.isFeatureEnabled
+import net.davils.kreate.feature.registerTask
 import net.davils.kreate.isMultiplatform
 import net.davils.kreate.projectVersion
 import org.gradle.api.Project
@@ -31,6 +32,12 @@ public class Core(override val project: Project, override val extension: KreateE
         project.version = projectVersion
 
         project.afterEvaluate {
+            val gradleProperties = registerTask<ConfigureGradleProperties>(
+                "configureGradleProperties",
+                "Configures the gradle properties."
+            )
+            execTaskBeforeCompile(gradleProperties.get())
+
             if (!isFeatureEnabled(extension.core)) return@afterEvaluate
 
             if (!isMultiplatform(project)) {
