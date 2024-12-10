@@ -8,11 +8,12 @@
 package net.davils.kreate.feature.cinterop
 
 import net.davils.kreate.KreateExtension
-import net.davils.kreate.feature.execTaskBeforeCompile
-import org.gradle.api.Project
-import net.davils.kreate.feature.isFeatureEnabled
+import net.davils.kreate.feature.*
 import net.davils.kreate.feature.KreateFeature
+import net.davils.kreate.feature.execTaskBeforeCompile
+import net.davils.kreate.feature.isFeatureEnabled
 import net.davils.kreate.feature.registerTask
+import org.gradle.api.Project
 import net.davils.kreate.isMultiplatform
 
 /**
@@ -58,6 +59,8 @@ public class CInterop(override val project: Project, override val extension: Kre
         }
 
         execTaskBeforeCompile(generateDefinitionFiles.get())
+        execTasksOnSync(generateDefinitionFiles.get())
+
         applyNativeTargets(project, extension)
     }
 }
