@@ -2,6 +2,7 @@
 kotlin = "2.1.0"
 kotest = "6.0.0.M1"
 dokka = "1.9.20"
+idea-ext = "1.1.9"
 
 [libraries]
 kotlin-gradle-api = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin-api", version.ref = "kotlin" }
@@ -10,6 +11,7 @@ kotlin-gradle-api = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin-api", 
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotest-gradle-plugin = { module = "io.kotest:kotest-framework-multiplatform-plugin-gradle", version.ref = "kotest" }
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+idea-ext-gradle-plugin = { module = "gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext", version.ref = "idea-ext"}
 
 [plugins]
 kreate = { id = "net.davils.kreate" }
@@ -24,5 +26,6 @@ kreate-dependencies = [
     "kotlin-gradle-api",
     "kotlin-gradle-plugin",
     "kotest-gradle-plugin",
-    "dokka-gradle-plugin"
+    "dokka-gradle-plugin",
+    "idea-ext-gradle-plugin"
 ]
