@@ -32,12 +32,6 @@ public class Core(override val project: Project, override val extension: KreateE
         project.version = projectVersion
 
         project.afterEvaluate {
-            val gradleProperties = registerTask<ConfigureGradleProperties>(
-                "configureGradleProperties",
-                "Configures the gradle properties."
-            )
-            execTaskBeforeCompile(gradleProperties.get())
-
             if (!isFeatureEnabled(extension.core)) return@afterEvaluate
 
             if (!isMultiplatform(project)) {
@@ -63,7 +57,12 @@ public class Core(override val project: Project, override val extension: KreateE
                 "filePatch",
                 "Patches all given files with the project version."
             )
-            execTasksBeforeCompile(license.get(), filePatch.get())
+            val gradleProperties = registerTask<ConfigureGradleProperties>(
+                "configureGradleProperties",
+                "Configures the gradle properties."
+            )
+            execTasksBeforeCompile(license.get(), filePatch.get(), gradleProperties.get())
+            execTasksOnSync(license.get(), filePatch.get(), gradleProperties.get())
         }
     }
 }
