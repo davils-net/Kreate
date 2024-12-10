@@ -29,7 +29,7 @@ public class Docs(override val project: Project, override val extension: KreateE
         if (!isFeatureEnabled(extension.docs)) return@afterEvaluate
 
         pluginManager.apply(DokkaPlugin::class)
-        if (parent != null && isMultiModuleMode) {
+        if (parent != null && isMultiModuleMode && !project.rootProject.plugins.hasPlugin("org.jetbrains.dokka")) {
             rootProject.plugins.apply(DokkaPlugin::class)
         }
 
