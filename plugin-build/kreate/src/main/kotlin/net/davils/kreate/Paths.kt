@@ -114,4 +114,12 @@ public class Paths(project: Project) {
      * @author Nils Jäkel
      * */
     public val rustRelease: File = rustDir.resolve("target/release")
+
+    /**
+     * The gradle.properties file.
+     *
+     * @since 0.0.2
+     * @author Nils Jäkel
+     * */
+    public val gradleProperties: File = rootProjectDir.resolve("gradle.properties")
 }
