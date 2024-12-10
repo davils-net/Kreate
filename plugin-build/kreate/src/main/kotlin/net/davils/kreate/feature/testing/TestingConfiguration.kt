@@ -19,7 +19,7 @@ import javax.inject.Inject
  * @author Nils Jäkel
  * */
 public abstract class TestingConfiguration @Inject constructor(objects: ObjectFactory) : KreateFeatureConfiguration {
-    override val enabled: Property<Boolean> = objects.property(Boolean::class.java).apply { set(true) }
+    override val enabled: Property<Boolean> = objects.property(Boolean::class.java).apply { set(false) }
 
     /**
      * If a test report should be created.
