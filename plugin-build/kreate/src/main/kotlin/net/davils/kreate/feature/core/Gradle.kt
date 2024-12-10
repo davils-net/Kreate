@@ -12,9 +12,28 @@ import net.davils.kreate.feature.Task
 import org.gradle.api.tasks.TaskAction
 import net.davils.kreate.isMultiplatform
 
+/**
+ * Task to configure gradle properties.
+ *
+ * @since 0.0.2
+ * @author Nils Jäkel
+ * */
 public abstract class ConfigureGradleProperties : Task() {
+    /**
+     * The path handler.
+     *
+     * @since 0.0.2
+     * @author Nils Jäkel
+     * */
     private val paths = Paths(project)
 
+    /**
+     * The task action.
+     * It configures the gradle properties.
+     *
+     * @since 0.0.2
+     * @author Nils Jäkel
+     * */
     @TaskAction
     override fun execute() {
         val isEnabled = extension.cinterop.enabled.get()
