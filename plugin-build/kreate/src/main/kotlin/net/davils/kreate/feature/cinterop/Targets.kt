@@ -34,25 +34,96 @@ internal fun applyNativeTargets(project: Project, extension: KreateExtension) {
 
     val projectTargets = extension.cinterop.targets.get()
     val cinteropFile = paths.cinteropFile.toPath()
+    val isWithoutCinterop = extension.cinterop.applyTargetsWithoutCInterop.get()
 
     project.extensions.configure<KotlinMultiplatformExtension>("kotlin") {
         projectTargets.forEach { target ->
             target.target.forEach { nativeTarget ->
                 when (nativeTarget) {
-                    KonanTarget.MINGW_X64 -> mingwX64 { applyCInterop(cinteropFile) }
-                    KonanTarget.LINUX_X64 -> linuxX64 { applyCInterop(cinteropFile) }
-                    KonanTarget.MACOS_X64 -> macosX64 { applyCInterop(cinteropFile) }
-                    KonanTarget.MACOS_ARM64 -> macosArm64 { applyCInterop(cinteropFile) }
-                    KonanTarget.IOS_ARM64 -> iosArm64 { applyCInterop(cinteropFile) }
-                    KonanTarget.IOS_X64 -> iosX64 { applyCInterop(cinteropFile) }
-                    KonanTarget.IOS_SIMULATOR_ARM64 -> iosSimulatorArm64 { applyCInterop(cinteropFile) }
-                    KonanTarget.WATCHOS_ARM32 -> watchosArm32 { applyCInterop(cinteropFile) }
-                    KonanTarget.WATCHOS_ARM64 -> watchosArm64 { applyCInterop(cinteropFile) }
-                    KonanTarget.WATCHOS_X64 -> watchosX64 { applyCInterop(cinteropFile) }
-                    KonanTarget.WATCHOS_SIMULATOR_ARM64 -> watchosSimulatorArm64 { applyCInterop(cinteropFile) }
-                    KonanTarget.TVOS_ARM64 -> tvosArm64 { applyCInterop(cinteropFile) }
-                    KonanTarget.TVOS_X64 -> tvosX64 { applyCInterop(cinteropFile) }
-                    KonanTarget.TVOS_SIMULATOR_ARM64 -> tvosSimulatorArm64 { applyCInterop(cinteropFile) }
+                    KonanTarget.MINGW_X64 -> mingwX64 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
+                    KonanTarget.LINUX_X64 -> linuxX64 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
+                    KonanTarget.MACOS_X64 -> macosX64 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
+                    KonanTarget.MACOS_ARM64 -> macosArm64 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
+                    KonanTarget.IOS_ARM64 -> iosArm64 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
+                    KonanTarget.IOS_X64 -> iosX64 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
+                    KonanTarget.IOS_SIMULATOR_ARM64 -> iosSimulatorArm64 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
+                    KonanTarget.WATCHOS_ARM32 -> watchosArm32 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
+                    KonanTarget.WATCHOS_ARM64 -> watchosArm64 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
+                    KonanTarget.WATCHOS_X64 -> watchosX64 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
+                    KonanTarget.WATCHOS_SIMULATOR_ARM64 -> watchosSimulatorArm64 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
+                    KonanTarget.TVOS_ARM64 -> tvosArm64 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
+                    KonanTarget.TVOS_X64 -> tvosX64 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
+                    KonanTarget.TVOS_SIMULATOR_ARM64 -> tvosSimulatorArm64 {
+                        if (!isWithoutCinterop) {
+                            applyCInterop(cinteropFile)
+                        }
+                    }
+
                     else -> throw IllegalStateException("Unknown target: $target")
                 }
             }
@@ -75,13 +146,20 @@ public enum class Target(
      *
      * @see KonanTarget
      * */
-    public val target: MutableList<KonanTarget>
+    public val target: MutableList<KonanTarget>,
 ) {
     WINDOWS(mutableListOf(KonanTarget.MINGW_X64)),
     LINUX(mutableListOf(KonanTarget.LINUX_X64)),
     MACOS(mutableListOf(KonanTarget.MACOS_X64, KonanTarget.MACOS_ARM64)),
     IOS(mutableListOf(KonanTarget.IOS_ARM64, KonanTarget.IOS_X64, KonanTarget.IOS_SIMULATOR_ARM64)),
-    WATCHOS(mutableListOf(KonanTarget.WATCHOS_ARM32, KonanTarget.WATCHOS_ARM64, KonanTarget.WATCHOS_X64, KonanTarget.WATCHOS_SIMULATOR_ARM64)),
+    WATCHOS(
+        mutableListOf(
+            KonanTarget.WATCHOS_ARM32,
+            KonanTarget.WATCHOS_ARM64,
+            KonanTarget.WATCHOS_X64,
+            KonanTarget.WATCHOS_SIMULATOR_ARM64
+        )
+    ),
     TVOS(mutableListOf(KonanTarget.TVOS_ARM64, KonanTarget.TVOS_X64, KonanTarget.TVOS_SIMULATOR_ARM64));
 }
 

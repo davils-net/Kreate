@@ -61,7 +61,8 @@ kreate {
         enabled = true
         edition = "2021"
         initialCBindVersion = "0.27.0"
-        initialLibCVersion = "0.2.167"
+        initialLibCVersion = "0.2.168"
+        applyTargetsWithoutCInterop = false
 
         targets(listOf(Target.LINUX))
     }

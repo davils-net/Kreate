@@ -55,6 +55,14 @@ public abstract class CInteropConfiguration @Inject constructor(objects: ObjectF
     public val targets: ListProperty<Target> = objects.listProperty(Target::class.java).apply { set(listOf(Target.LINUX)) }
 
     /**
+     * Applies the native targets without the cinterop.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    public val applyTargetsWithoutCInterop: Property<Boolean> = objects.property(Boolean::class.java).apply { set(false) }
+
+    /**
      * Sets the targets that should be applied for the cinterop.
      *
      * @param targets The targets that should be applied for the cinterop.
