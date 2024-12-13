@@ -50,9 +50,10 @@ public abstract class CInteropConfiguration @Inject constructor(objects: ObjectF
     /**
      * Applies the native targets without the cinterop.
      *
-     * @since 0.0.1
+     * @since 0.0.2
      * @author Nils Jäkel
      * */
+    // TODO Fix apply
     public val applyTargetsWithoutRust: Property<Boolean> = objects.property(Boolean::class.java).apply { set(false) }
 
     /**

@@ -5,7 +5,7 @@
  * Unauthorized copying, distribution, or modification of this work is strictly prohibited.
  */
 
-package net.davils.kreate.feature.core
+package net.davils.kreate.feature.cinterop
 
 import net.davils.kreate.Paths
 import net.davils.kreate.feature.Task
@@ -13,12 +13,12 @@ import org.gradle.api.tasks.TaskAction
 import net.davils.kreate.isMultiplatform
 
 /**
- * Task to configure gradle properties.
+ * Task to enable the C interop support.
  *
  * @since 0.0.2
  * @author Nils Jäkel
  * */
-public abstract class ConfigureGradleProperties : Task() {
+public abstract class EnableCInteropSupport : Task() {
     /**
      * The path handler.
      *
@@ -36,10 +36,9 @@ public abstract class ConfigureGradleProperties : Task() {
      * */
     @TaskAction
     override fun execute() {
-        val isEnabled = extension.cinterop.enabled.get()
         val isMultiplatform = isMultiplatform(project)
+        val content = paths.gradleProperties.readText()
 
-        var content = paths.gradleProperties.readText()
         if (isEnabled && isMultiplatform) {
             if (!content.contains("kotlin.mpp.enableCInteropCommonization")) {
                 paths.gradleProperties.appendText("\nkotlin.mpp.enableCInteropCommonization=true")
@@ -49,14 +48,6 @@ public abstract class ConfigureGradleProperties : Task() {
                 paths.gradleProperties.appendText("\nkotlin.native.ignoreDisabledTargets=true")
             }
             return
-        }
-
-        if (content.contains("kotlin.mpp.enableCInteropCommonization")) {
-            content = content.replace("kotlin.mpp.enableCInteropCommonization=true", "")
-        }
-
-        if (content.contains("kotlin.native.ignoreDisabledTargets")) {
-            content = content.replace("kotlin.native.ignoreDisabledTargets=true", "")
         }
         paths.gradleProperties.writeText(content)
     }

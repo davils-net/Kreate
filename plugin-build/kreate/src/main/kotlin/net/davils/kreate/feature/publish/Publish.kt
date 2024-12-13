@@ -17,6 +17,15 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.kotlin.dsl.*
 
+/**
+ * Applies the publish feature to the gradle project.
+ *
+ * @param project The current gradle project.
+ * @param config The publishing configuration.
+ *
+ * @since 0.0.2
+ * @author Nils Jäkel
+ * */
 internal fun publish(project: Project, config: PublishConfiguration) = project.feature(config) { ext ->
     val name = ext.core.name.get()
     val description = ext.core.description.get()
@@ -40,6 +49,9 @@ internal fun publish(project: Project, config: PublishConfiguration) = project.f
  * Applies the pom configuration.
  *
  * @param pom The maven pom to apply the configuration to.
+ * @param name The name of the project.
+ * @param description The description of the project.
+ * @param license The license of the project.
  *
  * @since 0.0.1
  * @author Nils Jäkel

@@ -14,6 +14,15 @@ import org.gradle.kotlin.dsl.getByName
 import org.jetbrains.dokka.gradle.DokkaPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
 
+/**
+ * Applies the docs feature to the gradle project.
+ *
+ * @param project The current gradle project.
+ * @param config The docs' configuration.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
 internal fun docs(project: Project, config: DocsConfiguration) = project.feature(config) { ext ->
     val isMultiModuleMode = config.isMultiModuleMode.get()
     val name = ext.core.name.get()

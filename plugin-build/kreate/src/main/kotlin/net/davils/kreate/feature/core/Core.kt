@@ -16,6 +16,15 @@ import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
+/**
+ * Applies the core feature to the gradle project.
+ *
+ * @param project The current gradle project.
+ * @param config The core configuration.
+ *
+ * @since 0.0.1
+ * @author Nils Jäkel
+ * */
 internal fun core(project: Project, config: CoreConfiguration) {
     project.version = projectVersion
 
@@ -29,11 +38,7 @@ internal fun core(project: Project, config: CoreConfiguration) {
             "filePatch",
             "Patches all given files with the project version."
         )
-        val gradleProperties = registerTask<ConfigureGradleProperties>(
-            "configureGradleProperties",
-            "Configures the gradle properties."
-        )
-        execTasksBeforeCompile(license.get(), filePatch.get(), gradleProperties.get())
+        execTasksBeforeCompile(license.get(), filePatch.get())
 
         if (!isMultiplatform(project)) {
             project.extensions.configure<KotlinJvmProjectExtension>("kotlin") {

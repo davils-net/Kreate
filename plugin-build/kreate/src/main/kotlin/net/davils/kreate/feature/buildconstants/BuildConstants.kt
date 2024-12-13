@@ -12,6 +12,15 @@ import net.davils.kreate.feature.execTaskBeforeCompile
 import net.davils.kreate.feature.registerTask
 import org.gradle.api.Project
 
+/**
+ * Applies the build constants feature to the gradle project.
+ *
+ * @param project The current gradle project.
+ * @param config The build constants configuration.
+ *
+ * @since 0.0.2
+ * @author Nils Jäkel
+ * */
 internal fun buildConstants(project: Project, config: BuildConstantsConfiguration) = project.feature(config) { _ ->
     val task = registerTask<GenerateBuildConstants>(
         name = "generateBuildConstants",

@@ -18,7 +18,7 @@ import org.gradle.kotlin.dsl.getByType
  * @param configuration The configuration for the feature.
  * @param func The function to execute.
  *
- * @since 0.0.1
+ * @since 0.0.2
  * @author Nils Jäkel
  * */
 internal fun <T : KreateFeatureConfiguration> Project.feature(

@@ -17,6 +17,15 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.withType
 
+/**
+ * Applies the testing feature to the gradle project.
+ *
+ * @param project The current gradle project.
+ * @param config The testing configuration.
+ *
+ * @since 0.0.2
+ * @author Nils Jäkel
+ * */
 internal fun testing(project: Project, config: TestingConfiguration) = project.feature(config) { _ ->
     val isMultiplatform = isMultiplatform(project)
     val isTestReport = config.createTestReport.get()
