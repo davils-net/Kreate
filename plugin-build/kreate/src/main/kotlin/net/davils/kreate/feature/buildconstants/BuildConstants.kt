@@ -23,14 +23,13 @@ import org.gradle.api.Project
  * */
 public class BuildConstants(override val project: Project, override val extension: KreateExtension) : KreateFeature {
     override fun register(): Unit = project.afterEvaluate {
+        if (!isFeatureEnabled(extension.buildConstants)) return@afterEvaluate
         val task = registerTask<GenerateBuildConstants>(
             name = "generateBuildConstants",
             description = "Generates the build constants for the current project."
         )
         execTaskBeforeCompile(task.get())
-        execTaskOnSync(task.get())
 
-        if (!isFeatureEnabled(extension.buildConstants)) return@afterEvaluate
 
         val sourceSets = extension.buildConstants.sourceSets.orNull ?: throw IllegalArgumentException("sourceSets not configured or not found")
         val path = extension.buildConstants.path(this)

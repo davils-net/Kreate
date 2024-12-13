@@ -85,7 +85,6 @@ public abstract class GenerateLicense : Task() {
      * */
     @TaskAction
     override fun execute() {
-        if (!isFeatureEnabled(extension.core)) return
         if (paths.license.exists() && paths.license.readText().isNotEmpty()) return
 
         if (!paths.license.exists()) {

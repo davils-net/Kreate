@@ -36,8 +36,6 @@ public abstract class ExcludeSourcesInGit : Task() {
      * */
     @TaskAction
     override fun execute() {
-        if (!isFeatureEnabled(extension.cinterop) || !isMultiplatform(project)) return
-
         if (!paths.gitignore.exists()) {
             paths.gitignore.createNewFile()
         }

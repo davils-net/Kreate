@@ -39,8 +39,6 @@ public abstract class GenerateDefinitionFile : Task() {
      * */
     @TaskAction
     override fun execute() {
-        if (!isFeatureEnabled(extension.cinterop) || !isMultiplatform(project)) return
-
         val hFile = paths.includeDir.list()?.joinToString(" ") ?: throw IllegalStateException("No header file found in ${paths.includeDir}")
         paths.cinteropDir.mkdirs()
 

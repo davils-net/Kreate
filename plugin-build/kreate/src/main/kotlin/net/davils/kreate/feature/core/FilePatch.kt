@@ -38,8 +38,6 @@ public abstract class FilePatch : Task() {
      * */
     @TaskAction
     override fun execute() {
-        if (!isFeatureEnabled(extension.core)) return
-
         files.forEach { entry ->
             val file = entry.file
             if (!file.exists()) throw IllegalStateException("File $file does not exist")

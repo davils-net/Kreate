@@ -89,3 +89,7 @@ tasks {
     withType<GenerateDefinitionFile> {  }
     withType<CompileRust> {  }
 }
+
+kotlin {
+    jvm()
+}

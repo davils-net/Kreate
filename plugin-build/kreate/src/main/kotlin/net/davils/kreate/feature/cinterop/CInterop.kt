@@ -24,6 +24,8 @@ import net.davils.kreate.isMultiplatform
  * */
 public class CInterop(override val project: Project, override val extension: KreateExtension) : KreateFeature {
     override fun register(): Unit = project.afterEvaluate {
+        if (!isFeatureEnabled(extension.cinterop) || !isMultiplatform(project)) return@afterEvaluate
+
         val generationTask = registerTask<SetupRustProject>(
             "setupRustProject",
             "Generates the Rust project for the native implementation."
@@ -56,9 +58,7 @@ public class CInterop(override val project: Project, override val extension: Kre
             dependsOn(compileRust)
         }
         execTaskBeforeCompile(generateDefinitionFiles.get())
-        execTasksOnSync(generateDefinitionFiles.get())
 
-        if (!isFeatureEnabled(extension.cinterop) || !isMultiplatform(project)) return@afterEvaluate
         applyNativeTargets(project, extension)
     }
 }

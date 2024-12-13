@@ -37,7 +37,6 @@ public abstract class GenerateBuildConstants : Task() {
      * */
     @TaskAction
     override fun execute() {
-        if (!isFeatureEnabled(extension.buildConstants)) return
         val properties = extension.buildConstants.properties.get()
 
         val content = properties.entries.joinToString("\n") { "const val ${it.key} = \"${it.value}\"" }

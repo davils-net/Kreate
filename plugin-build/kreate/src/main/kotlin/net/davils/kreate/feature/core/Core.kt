@@ -32,6 +32,8 @@ public class Core(override val project: Project, override val extension: KreateE
         project.version = projectVersion
 
         project.afterEvaluate {
+            if (!isFeatureEnabled(extension.core)) return@afterEvaluate
+
             val license = registerTask<GenerateLicense>(
                 "generateLicense",
                 "Generates the license for the current project."
@@ -45,9 +47,7 @@ public class Core(override val project: Project, override val extension: KreateE
                 "Configures the gradle properties."
             )
             execTasksBeforeCompile(license.get(), filePatch.get(), gradleProperties.get())
-            execTasksOnSync(license.get(), filePatch.get(), gradleProperties.get())
 
-            if (!isFeatureEnabled(extension.core)) return@afterEvaluate
 
             if (!isMultiplatform(project)) {
                 project.extensions.configure<KotlinJvmProjectExtension>("kotlin") {

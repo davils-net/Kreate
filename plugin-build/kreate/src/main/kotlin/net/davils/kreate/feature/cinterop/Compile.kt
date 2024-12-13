@@ -37,8 +37,6 @@ public abstract class CompileRust : Task() {
      * */
     @TaskAction
     override fun execute() {
-        if (!isFeatureEnabled(extension.cinterop) || !isMultiplatform(project)) return
-
         val builder = ProcessBuilder("cargo", "build", "--release")
         builder.directory(paths.rustDir)
 

@@ -39,7 +39,6 @@ public abstract class SetupRustProject : Task() {
      * */
     @TaskAction
     override fun execute() {
-        if (!isFeatureEnabled(extension.cinterop) || !isMultiplatform(project)) return
         if (paths.rustDir.exists()) return
 
         val builder = ProcessBuilder("cargo", "new", paths.rustDir.name, "--lib")
@@ -74,8 +73,6 @@ public abstract class ConfigureCargo : Task() {
      * */
     @TaskAction
     override fun execute() {
-        if (!isFeatureEnabled(extension.cinterop) || !isMultiplatform(project)) return
-
         val name = extension.core.name.get().lowercase()
         val description = extension.core.description.get()
         val license = extension.core.license.get()
@@ -129,8 +126,6 @@ public abstract class ConfigureBuildScript : Task() {
      * */
     @TaskAction
     override fun execute() {
-        if (!isFeatureEnabled(extension.cinterop) || !isMultiplatform(project)) return
-
         val name = extension.core.name.get().lowercase()
         val buildLogic = """
              extern crate cbindgen;

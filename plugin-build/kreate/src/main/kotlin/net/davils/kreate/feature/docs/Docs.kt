@@ -30,7 +30,7 @@ public class Docs(override val project: Project, override val extension: KreateE
 
         pluginManager.apply(DokkaPlugin::class)
         if (parent != null && isMultiModuleMode && !project.rootProject.plugins.hasPlugin("org.jetbrains.dokka")) {
-            rootProject.plugins.apply(DokkaPlugin::class)
+            rootProject.pluginManager.apply(DokkaPlugin::class)
         }
 
         val name = extension.core.name.get()
