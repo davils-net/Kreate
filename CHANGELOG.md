@@ -1,4 +1,33 @@
 # CHANGELOG
+## Version 0.0.2
+### Features
+#### Core
+- **Gradle Sync**
+  - Introduced a function to execute tasks during Gradle Sync, streamlining project configurations.
+
+#### CInterop
+- **Rust-to-Kotlin Interoperability**
+  - Enabled applying native targets without requiring native bindings, enhancing flexibility in cross-language development.
+
+### Fixes
+#### Documentation
+- **Dokka Integration**
+  - Resolved an issue where the Dokka plugin was being redundantly applied to the root project. It now only applies when not already present.
+
+#### CInterop
+- **Rust-to-Kotlin Interoperability**
+  - Fixed an issue where Cargo and build script overrides occurred on every build/compile.
+
+#### Publishing
+- **Maven Publish Plugin**
+  - Corrected the timing issue where the Maven Publish plugin was applied too late during Gradle evaluation, ensuring proper functionality.
+
+### Dependencies
+- **Kotlin:** 2.1.0
+- **Kotest:** 6.0.0.M1
+- **Dokka:** 1.9.20
+- **Idea Ext:** 1.1.9
+
 ## Version 0.0.1
 ### Features
 #### Core
