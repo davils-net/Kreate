@@ -14,7 +14,6 @@ import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.kotlin.dsl.*
 
 /**
@@ -33,7 +32,7 @@ internal fun publish(project: Project, config: PublishConfiguration) = project.f
     val inceptionYear = config.inceptionYear.get()
 
     require(inceptionYear >= 2024) { "The inception year must be at least 2024" }
-    plugins.apply(MavenPublishPlugin::class)
+    pluginManager.apply("maven-publish")
 
     extensions.configure(PublishingExtension::class) {
         publications.withType<MavenPublication> {
