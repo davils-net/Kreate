@@ -28,6 +28,13 @@ public abstract class SetupRustProject : Task() {
      * */
     private val paths = Paths(project)
 
+    private val name = extension.core.name.get().lowercase()
+    private val description = extension.core.description.get()
+    private val license = extension.core.license.get()
+    private val edition = extension.cinterop.edition.get()
+    private val cBindVersion = extension.cinterop.cBindVersion.get()
+    private val libCVersion = extension.cinterop.libCVersion.get()
+
     /**
      * The task action.
      * It sets up the rust project.
@@ -44,40 +51,12 @@ public abstract class SetupRustProject : Task() {
 
         val process = builder.start()
         process.waitFor()
+
+        initializeCargo()
+        initializeBuildScript()
     }
-}
 
-/**
- * Represents the task to configure Cargo.
- *
- * @since 0.0.1
- * @author Nils Jäkel
- * */
-public abstract class ConfigureCargo : Task() {
-    /**
-     * The path handler.
-     *
-     * @since 0.0.1
-     * @author Nils Jäkel
-     * */
-    private val paths = Paths(project)
-
-    /**
-     * The task action.
-     * It configures the Cargo.toml file.
-     *
-     * @since 0.0.1
-     * @author Nils Jäkel
-     * */
-    @TaskAction
-    override fun execute() {
-        val name = extension.core.name.get().lowercase()
-        val description = extension.core.description.get()
-        val license = extension.core.license.get()
-        val edition = extension.cinterop.edition.get()
-        val cBindVersion = extension.cinterop.cBindVersion.get()
-        val libCVersion = extension.cinterop.libCVersion.get()
-
+    private fun initializeCargo() {
         val cargoConfig = """
              [package]
              name = "$name"
@@ -96,35 +75,11 @@ public abstract class ConfigureCargo : Task() {
              [dependencies]
              libc = "$libCVersion"
         """.trimIndent()
+
         paths.cargoToml.writeText(cargoConfig)
     }
-}
 
-/**
- * Represents the task to configure the build script.
- *
- * @since 0.0.1
- * @author Nils Jäkel
- * */
-public abstract class ConfigureBuildScript : Task() {
-    /**
-     * The path handler.
-     *
-     * @since 0.0.1
-     * @author Nils Jäkel
-     * */
-    private val paths = Paths(project)
-
-    /**
-     * The task action.
-     * It configures the build.rs file.
-     *
-     * @since 0.0.1
-     * @author Nils Jäkel
-     * */
-    @TaskAction
-    override fun execute() {
-        val name = extension.core.name.get().lowercase()
+    private fun initializeBuildScript() {
         val buildLogic = """
              extern crate cbindgen;
 

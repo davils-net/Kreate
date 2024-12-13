@@ -16,25 +16,15 @@ import net.davils.kreate.isMultiplatform
 internal fun cinterop(project: Project, config: CInteropConfiguration) = project.feature(config) { _ ->
     if (!isMultiplatform(this)) return@feature
 
-    val generationTask = registerTask<SetupRustProject>(
+    val setupRust = registerTask<SetupRustProject>(
         "setupRustProject",
         "Generates the Rust project for the native implementation."
     )
 
-    val configureCargo = registerTask<ConfigureCargo>(
-        "configureCargo",
-        "Configures the Cargo for the rust project."
-    ) { dependsOn(generationTask) }
-
-    val configureBuildScript = registerTask<ConfigureBuildScript>(
-        "configureBuildScript",
-        "Configures the build script for the rust project."
-    ) { dependsOn(configureCargo) }
-
     val gitExclude = registerTask<ExcludeSourcesInGit>(
         "excludeSourcesInGit",
         "Excludes the sources in the gitignore file."
-    ) { dependsOn(configureBuildScript) }
+    ) { dependsOn(setupRust) }
 
     val compileRust = registerTask<CompileRust>(
         "compileRust",
