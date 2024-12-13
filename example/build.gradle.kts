@@ -60,11 +60,11 @@ kreate {
     cinterop {
         enabled = true
         edition = "2021"
-        initialCBindVersion = "0.27.0"
-        initialLibCVersion = "0.2.168"
-        applyTargetsWithoutCInterop = false
+        cBindVersion = "0.27.0"
+        libCVersion = "0.2.168"
+        applyTargetsWithoutRust = false
 
-        targets(listOf(Target.LINUX))
+        targets(Target.LINUX)
     }
 
     testing {

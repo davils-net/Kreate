@@ -31,12 +31,11 @@ internal fun applyNativeTargets(project: Project, config: CInteropConfiguration)
         return
     }
 
-    val projectTargets = config.targets.get()
     val cinteropFile = paths.cinteropFile.toPath()
-    val isWithoutCinterop = config.applyTargetsWithoutCInterop.get()
+    val isWithoutCinterop = config.applyTargetsWithoutRust.get()
 
     project.extensions.configure<KotlinMultiplatformExtension>("kotlin") {
-        projectTargets.forEach { target ->
+        config.targets.forEach { target ->
             target.target.forEach { nativeTarget ->
                 when (nativeTarget) {
                     KonanTarget.MINGW_X64 -> mingwX64 {

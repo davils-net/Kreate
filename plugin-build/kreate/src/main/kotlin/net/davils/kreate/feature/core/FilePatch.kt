@@ -8,7 +8,6 @@
 package net.davils.kreate.feature.core
 
 import net.davils.kreate.feature.Task
-import net.davils.kreate.feature.isFeatureEnabled
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 

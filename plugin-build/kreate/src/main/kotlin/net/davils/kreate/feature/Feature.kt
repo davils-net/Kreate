@@ -21,7 +21,10 @@ import org.gradle.kotlin.dsl.getByType
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-internal fun <T : KreateFeatureConfiguration> Project.feature(configuration: T, func: Project.(ext: KreateExtension) -> Unit) {
+internal fun <T : KreateFeatureConfiguration> Project.feature(
+    configuration: T,
+    func: Project.(ext: KreateExtension) -> Unit,
+) {
     val extension = extensions.getByType<KreateExtension>()
 
     afterEvaluate {

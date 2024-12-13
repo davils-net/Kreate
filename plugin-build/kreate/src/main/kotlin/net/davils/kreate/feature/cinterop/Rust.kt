@@ -10,8 +10,6 @@ package net.davils.kreate.feature.cinterop
 import net.davils.kreate.build.BuildConstants
 import net.davils.kreate.feature.Task
 import net.davils.kreate.Paths
-import net.davils.kreate.feature.isFeatureEnabled
-import net.davils.kreate.isMultiplatform
 import net.davils.kreate.projectVersion
 import org.gradle.api.tasks.TaskAction
 
@@ -77,8 +75,8 @@ public abstract class ConfigureCargo : Task() {
         val description = extension.core.description.get()
         val license = extension.core.license.get()
         val edition = extension.cinterop.edition.get()
-        val cBindVersion = extension.cinterop.initialCBindVersion.get()
-        val libCVersion = extension.cinterop.initialLibCVersion.get()
+        val cBindVersion = extension.cinterop.cBindVersion.get()
+        val libCVersion = extension.cinterop.libCVersion.get()
 
         val cargoConfig = """
              [package]

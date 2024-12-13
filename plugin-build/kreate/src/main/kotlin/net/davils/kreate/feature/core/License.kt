@@ -10,7 +10,6 @@ package net.davils.kreate.feature.core
 import net.davils.kreate.Paths
 import net.davils.kreate.build.BuildConstants
 import net.davils.kreate.feature.Task
-import net.davils.kreate.feature.isFeatureEnabled
 import org.gradle.api.tasks.TaskAction
 
 /**

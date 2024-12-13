@@ -9,7 +9,6 @@ package net.davils.kreate.feature.buildconstants
 
 import net.davils.kreate.build.BuildConstants
 import net.davils.kreate.feature.Task
-import net.davils.kreate.feature.isFeatureEnabled
 import org.gradle.api.tasks.TaskAction
 
 /**

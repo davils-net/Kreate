@@ -9,7 +9,6 @@ package net.davils.kreate.feature.cinterop
 
 import net.davils.kreate.feature.KreateFeatureConfiguration
 import org.gradle.api.model.ObjectFactory
-import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.jetbrains.kotlin.konan.target.KonanTarget
 import javax.inject.Inject
@@ -21,6 +20,8 @@ import javax.inject.Inject
  * @author Nils Jäkel
  * */
 public abstract class CInteropConfiguration @Inject constructor(objects: ObjectFactory) : KreateFeatureConfiguration {
+    internal val targets: MutableList<Target> = mutableListOf()
+
     override val enabled: Property<Boolean> = objects.property(Boolean::class.java).apply { set(false) }
     /**
      * The rust edition.
@@ -31,28 +32,20 @@ public abstract class CInteropConfiguration @Inject constructor(objects: ObjectF
     public val edition: Property<String> = objects.property(String::class.java).apply { set("2021") }
 
     /**
-     * The initial cbindgen version.
+     * The cbindgen version.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    public val initialCBindVersion: Property<String> = objects.property(String::class.java).apply { set("0.27.0") }
+    public val cBindVersion: Property<String> = objects.property(String::class.java).apply { set("0.27.0") }
 
     /**
-     * The initial libc version.
+     * The libc version.
      *
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    public val initialLibCVersion: Property<String> = objects.property(String::class.java).apply { set("0.2.167") }
-
-    /**
-     * The targets that should be applied for the cinterop.
-     *
-     * @since 0.0.1
-     * @author Nils Jäkel
-     * */
-    public val targets: ListProperty<Target> = objects.listProperty(Target::class.java).apply { set(listOf(Target.LINUX)) }
+    public val libCVersion: Property<String> = objects.property(String::class.java).apply { set("0.2.167") }
 
     /**
      * Applies the native targets without the cinterop.
@@ -60,7 +53,7 @@ public abstract class CInteropConfiguration @Inject constructor(objects: ObjectF
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    public val applyTargetsWithoutCInterop: Property<Boolean> = objects.property(Boolean::class.java).apply { set(false) }
+    public val applyTargetsWithoutRust: Property<Boolean> = objects.property(Boolean::class.java).apply { set(false) }
 
     /**
      * Sets the targets that should be applied for the cinterop.
@@ -71,7 +64,7 @@ public abstract class CInteropConfiguration @Inject constructor(objects: ObjectF
      * @since 0.0.1
      * @author Nils Jäkel
      * */
-    public fun targets(targets: List<Target>, exclude: List<KonanTarget> = listOf()) {
+    public fun targets(vararg targets: Target, exclude: List<KonanTarget> = listOf()) {
         val changedTargets: MutableList<Target> = mutableListOf()
 
         targets.forEach { target ->
@@ -80,6 +73,6 @@ public abstract class CInteropConfiguration @Inject constructor(objects: ObjectF
             changedTargets.add(target)
         }
 
-        this.targets.set(changedTargets)
+        this.targets.addAll(changedTargets)
     }
 }
