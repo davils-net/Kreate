@@ -6,8 +6,6 @@
  */
 
 import net.davils.kreate.feature.cinterop.CompileRust
-import net.davils.kreate.feature.cinterop.ConfigureBuildScript
-import net.davils.kreate.feature.cinterop.ConfigureCargo
 import net.davils.kreate.feature.cinterop.ExcludeSourcesInGit
 import net.davils.kreate.feature.cinterop.GenerateDefinitionFile
 import net.davils.kreate.feature.cinterop.SetupRustProject
@@ -83,13 +81,7 @@ tasks {
     withType<FilePatch> {  }
 
     withType<SetupRustProject> {  }
-    withType<ConfigureCargo> {  }
-    withType<ConfigureBuildScript> {  }
     withType<ExcludeSourcesInGit> {  }
     withType<GenerateDefinitionFile> {  }
     withType<CompileRust> {  }
-}
-
-kotlin {
-    jvm()
 }
