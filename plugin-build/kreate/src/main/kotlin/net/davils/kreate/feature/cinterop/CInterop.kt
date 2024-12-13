@@ -48,9 +48,8 @@ internal fun cinterop(project: Project, config: CInteropConfiguration) = project
     val generateDefinitionFiles = registerTask<GenerateDefinitionFile>(
         "generateDefinitionFiles",
         "Generates the definition file as bridge for the kotlin compiler."
-    ) {
-        dependsOn(compileRust)
-    }
+    ) { dependsOn(compileRust) }
+
     execTaskBeforeCompile(generateDefinitionFiles.get())
     applyNativeTargets(project, config)
 }
