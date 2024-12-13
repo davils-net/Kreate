@@ -7,12 +7,12 @@
 
 package net.davils.kreate
 
-import net.davils.kreate.feature.buildconstants.BuildConstants
-import net.davils.kreate.feature.core.Core
-import net.davils.kreate.feature.cinterop.CInterop
-import net.davils.kreate.feature.docs.Docs
-import net.davils.kreate.feature.publish.Publish
-import net.davils.kreate.feature.testing.Testing
+import net.davils.kreate.feature.buildconstants.buildConstants
+import net.davils.kreate.feature.cinterop.cinterop
+import net.davils.kreate.feature.core.core
+import net.davils.kreate.feature.docs.docs
+import net.davils.kreate.feature.publish.publish
+import net.davils.kreate.feature.testing.testing
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
@@ -27,11 +27,11 @@ public class Kreate : Plugin<Project> {
     override fun apply(project: Project) {
         val kreateExtension = project.extensions.create("kreate", KreateExtension::class)
 
-        Core(project, kreateExtension).register()
-        Publish(project, kreateExtension).register()
-        CInterop(project, kreateExtension).register()
-        BuildConstants(project, kreateExtension).register()
-        Testing(project, kreateExtension).register()
-        Docs(project, kreateExtension).register()
+        core(project, kreateExtension.core)
+        publish(project, kreateExtension.publish)
+        cinterop(project, kreateExtension.cinterop)
+        buildConstants(project, kreateExtension.buildConstants)
+        testing(project, kreateExtension.testing)
+        docs(project, kreateExtension.docs)
     }
 }

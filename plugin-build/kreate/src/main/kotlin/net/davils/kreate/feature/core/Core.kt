@@ -7,11 +7,8 @@
 
 package net.davils.kreate.feature.core
 
-import net.davils.kreate.KreateExtension
 import net.davils.kreate.feature.*
-import net.davils.kreate.feature.KreateFeature
 import net.davils.kreate.feature.execTasksBeforeCompile
-import net.davils.kreate.feature.isFeatureEnabled
 import net.davils.kreate.feature.registerTask
 import net.davils.kreate.isMultiplatform
 import net.davils.kreate.projectVersion
@@ -19,49 +16,37 @@ import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
-/**
- * Represents the core feature.
- *
- * @since 0.0.1
- * @author Nils Jäkel
- * */
-public class Core(override val project: Project, override val extension: KreateExtension) : KreateFeature {
-    private val isExplicitApiMode = extension.core.isExplicitApiMode.get()
+internal fun core(project: Project, config: CoreConfiguration) {
+    project.version = projectVersion
 
-    override fun register() {
-        project.version = projectVersion
+    project.feature(config) { _ ->
+        val isExplicitApiMode = config.isExplicitApiMode.get()
+        val license = registerTask<GenerateLicense>(
+            "generateLicense",
+            "Generates the license for the current project."
+        )
+        val filePatch = registerTask<FilePatch>(
+            "filePatch",
+            "Patches all given files with the project version."
+        )
+        val gradleProperties = registerTask<ConfigureGradleProperties>(
+            "configureGradleProperties",
+            "Configures the gradle properties."
+        )
+        execTasksBeforeCompile(license.get(), filePatch.get(), gradleProperties.get())
 
-        project.afterEvaluate {
-            if (!isFeatureEnabled(extension.core)) return@afterEvaluate
-
-            val license = registerTask<GenerateLicense>(
-                "generateLicense",
-                "Generates the license for the current project."
-            )
-            val filePatch = registerTask<FilePatch>(
-                "filePatch",
-                "Patches all given files with the project version."
-            )
-            val gradleProperties = registerTask<ConfigureGradleProperties>(
-                "configureGradleProperties",
-                "Configures the gradle properties."
-            )
-            execTasksBeforeCompile(license.get(), filePatch.get(), gradleProperties.get())
-
-
-            if (!isMultiplatform(project)) {
-                project.extensions.configure<KotlinJvmProjectExtension>("kotlin") {
-                    if (isExplicitApiMode) {
-                        explicitApi()
-                    }
+        if (!isMultiplatform(project)) {
+            project.extensions.configure<KotlinJvmProjectExtension>("kotlin") {
+                if (isExplicitApiMode) {
+                    explicitApi()
                 }
-            } else {
-                project.extensions.configure<KotlinMultiplatformExtension>("kotlin") {
-                    if (isExplicitApiMode) {
-                        explicitApi()
-                    }
-                    jvm()
+            }
+        } else {
+            project.extensions.configure<KotlinMultiplatformExtension>("kotlin") {
+                if (isExplicitApiMode) {
+                    explicitApi()
                 }
+                jvm()
             }
         }
     }

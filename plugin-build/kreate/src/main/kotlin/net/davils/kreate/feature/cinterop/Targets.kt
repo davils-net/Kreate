@@ -26,15 +26,15 @@ import java.nio.file.Path
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-internal fun applyNativeTargets(project: Project, extension: KreateExtension) {
+internal fun applyNativeTargets(project: Project, config: CInteropConfiguration) {
     val paths = Paths(project)
     if (!paths.cinteropFile.exists()) {
         return
     }
 
-    val projectTargets = extension.cinterop.targets.get()
+    val projectTargets = config.targets.get()
     val cinteropFile = paths.cinteropFile.toPath()
-    val isWithoutCinterop = extension.cinterop.applyTargetsWithoutCInterop.get()
+    val isWithoutCinterop = config.applyTargetsWithoutCInterop.get()
 
     project.extensions.configure<KotlinMultiplatformExtension>("kotlin") {
         projectTargets.forEach { target ->

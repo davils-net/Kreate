@@ -7,10 +7,9 @@
 
 package net.davils.kreate.feature.publish
 
-import net.davils.kreate.KreateExtension
 import net.davils.kreate.build.BuildConstants
-import net.davils.kreate.feature.KreateFeature
-import net.davils.kreate.feature.isFeatureEnabled
+import net.davils.kreate.feature.core.License
+import net.davils.kreate.feature.feature
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
@@ -18,70 +17,60 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.kotlin.dsl.*
 
+internal fun publish(project: Project, config: PublishConfiguration) = project.feature(config) { ext ->
+    val name = ext.core.name.get()
+    val description = ext.core.description.get()
+    val license = ext.core.license.get()
+    val inceptionYear = config.inceptionYear.get()
+
+    require(inceptionYear >= 2024) { "The inception year must be at least 2024" }
+    plugins.apply(MavenPublishPlugin::class)
+
+    extensions.configure(PublishingExtension::class) {
+        publications.withType<MavenPublication> {
+            pom {
+                pomConfiguration(this, name, description, license)
+            }
+        }
+        publishRepository(this)
+    }
+}
+
 /**
- * Represents the publishing feature.
+ * Applies the pom configuration.
+ *
+ * @param pom The maven pom to apply the configuration to.
  *
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-public class Publish(override val project: Project, override val extension: KreateExtension) : KreateFeature {
-    private val projectName = extension.core.name.get()
-    private val projectDescription = extension.core.description.get()
-    private val projectLicense = extension.core.license.get()
-    private val projectInceptionYear = extension.publish.inceptionYear.get()
+private fun pomConfiguration(pom: MavenPom, name: String, description: String, license: License) {
+    pom.name.set(name)
+    pom.description.set(description)
+    pom.url.set(BuildConstants.ORGANISATION_URL)
 
-    override fun register(): Unit = project.afterEvaluate {
-        if (!isFeatureEnabled(extension.publish)) return@afterEvaluate
+    pom.issueManagement {
+        this.system.set("YouTrack")
+    }
 
-        require(projectInceptionYear >= 2024) { "The inception year must be at least 2024" }
-        plugins.apply(MavenPublishPlugin::class)
+    pom.ciManagement {
+        this.system.set("Gitlab")
+    }
 
-        extensions.configure(PublishingExtension::class) {
-            publications.withType<MavenPublication> {
-                pom {
-                    pomConfiguration(this)
-                }
-            }
-            publishRepository(this)
+    pom.licenses {
+        license {
+            this.name.set(license.value)
         }
     }
 
-    /**
-     * Applies the pom configuration.
-     *
-     * @param pom The maven pom to apply the configuration to.
-     *
-     * @since 0.0.1
-     * @author Nils Jäkel
-     * */
-    private fun pomConfiguration(pom: MavenPom) {
-        pom.name.set(projectName)
-        pom.description.set(projectDescription)
-        pom.url.set(BuildConstants.ORGANISATION_URL)
-
-        pom.issueManagement {
-            system.set("YouTrack")
-        }
-
-        pom.ciManagement {
-            system.set("Gitlab")
-        }
-
-        pom.licenses {
-            license {
-                name.set(projectLicense.value)
-            }
-        }
-
-        pom.developers {
-            developer {
-                id.set(BuildConstants.ORGANIZATION_NAME.lowercase())
-                name.set(BuildConstants.ORGANIZATION_NAME)
-                email.set(BuildConstants.ORGANISATION_EMAIL)
-                url.set(BuildConstants.ORGANISATION_URL)
-                organization.set(BuildConstants.ORGANIZATION_NAME)
-                organizationUrl.set(BuildConstants.ORGANISATION_URL)
-            }
+    pom.developers {
+        developer {
+            this.id.set(BuildConstants.ORGANIZATION_NAME.lowercase())
+            this.name.set(BuildConstants.ORGANIZATION_NAME)
+            this.email.set(BuildConstants.ORGANISATION_EMAIL)
+            this.url.set(BuildConstants.ORGANISATION_URL)
+            this.organization.set(BuildConstants.ORGANIZATION_NAME)
+            this.organizationUrl.set(BuildConstants.ORGANISATION_URL)
         }
     }
 }

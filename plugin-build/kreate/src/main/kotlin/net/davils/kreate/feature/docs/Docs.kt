@@ -7,37 +7,25 @@
 
 package net.davils.kreate.feature.docs
 
-import net.davils.kreate.KreateExtension
-import net.davils.kreate.feature.KreateFeature
-import net.davils.kreate.feature.isFeatureEnabled
+import net.davils.kreate.feature.feature
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.getByName
 import org.jetbrains.dokka.gradle.DokkaPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
 
-/**
- * Represents the docs feature.
- *
- * @since 0.0.1
- * @author Nils Jäkel
- * */
-public class Docs(override val project: Project, override val extension: KreateExtension) : KreateFeature {
-    private val isMultiModuleMode = extension.docs.isMultiModuleMode.get()
+internal fun docs(project: Project, config: DocsConfiguration) = project.feature(config) { ext ->
+    val isMultiModuleMode = config.isMultiModuleMode.get()
+    val name = ext.core.name.get()
+    val description = ext.core.description.get()
 
-    override fun register(): Unit = project.afterEvaluate {
-        if (!isFeatureEnabled(extension.docs)) return@afterEvaluate
+    pluginManager.apply(DokkaPlugin::class)
+    if (parent != null && isMultiModuleMode && !project.rootProject.plugins.hasPlugin("org.jetbrains.dokka")) {
+        rootProject.pluginManager.apply(DokkaPlugin::class)
+    }
 
-        pluginManager.apply(DokkaPlugin::class)
-        if (parent != null && isMultiModuleMode && !project.rootProject.plugins.hasPlugin("org.jetbrains.dokka")) {
-            rootProject.pluginManager.apply(DokkaPlugin::class)
-        }
-
-        val name = extension.core.name.get()
-        val projectDescription = extension.core.description.get()
-        tasks.getByName("dokkaHtml", DokkaTask::class) {
-            moduleName.set(name)
-            description = projectDescription
-        }
+    tasks.getByName("dokkaHtml", DokkaTask::class) {
+        this.moduleName.set(name)
+        this.description = description
     }
 }

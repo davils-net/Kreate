@@ -10,37 +10,27 @@ package net.davils.kreate.feature
 import net.davils.kreate.KreateExtension
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
+import org.gradle.kotlin.dsl.getByType
 
 /**
- * Central adapter for all features in kreate.
+ * Applies a feature to the gradle project.
+ *
+ * @param configuration The configuration for the feature.
+ * @param func The function to execute.
  *
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-internal interface KreateFeature {
-    /**
-     * The current gradle project.
-     *
-     * @since 0.0.1
-     * @author Nils Jäkel
-     * */
-    val project: Project
+internal fun <T : KreateFeatureConfiguration> Project.feature(configuration: T, func: Project.(ext: KreateExtension) -> Unit) {
+    val extension = extensions.getByType<KreateExtension>()
 
-    /**
-     * The kreate extension from the current gradle project.
-     *
-     * @since 0.0.1
-     * @author Nils Jäkel
-     * */
-    val extension: KreateExtension
+    afterEvaluate {
+        val isCoreEnabled: Boolean = extension.core.enabled.get()
+        if (!isCoreEnabled) return@afterEvaluate
 
-    /**
-     * Registers a feature to the plugin.
-     *
-     * @since 0.0.1
-     * @author Nils Jäkel
-     * */
-    fun register()
+        if (!isFeatureEnabled(configuration)) return@afterEvaluate
+        func(extension)
+    }
 }
 
 /**
@@ -68,4 +58,4 @@ internal interface KreateFeatureConfiguration {
  * @since 0.0.1
  * @author Nils Jäkel
  * */
-internal fun isFeatureEnabled(configuration: KreateFeatureConfiguration): Boolean = configuration.enabled.getOrElse(false)
+private fun isFeatureEnabled(configuration: KreateFeatureConfiguration): Boolean = configuration.enabled.getOrElse(false)
