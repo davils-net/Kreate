@@ -5,6 +5,8 @@
  * Unauthorized copying, distribution, or modification of this work is strictly prohibited.
  */
 
+@file:Suppress("unused")
+
 package net.davils.kreate.feature
 
 import org.gradle.api.Project
@@ -15,6 +17,7 @@ import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.jetbrains.gradle.ext.IdeaExtPlugin
 import org.jetbrains.gradle.ext.ProjectSettings
 import org.jetbrains.gradle.ext.TaskTriggersConfig
+import org.gradle.api.Task
 
 /**
  * Executes a task on gradle sync.
@@ -24,7 +27,7 @@ import org.jetbrains.gradle.ext.TaskTriggersConfig
  * @since 0.0.2
  * @author Nils Jäkel
  * */
-internal fun Project.execTaskOnSync(task: Task) {
+public fun Project.execTaskOnSync(task: Task) {
     if (!project.rootProject.plugins.hasPlugin("org.jetbrains.gradle.plugin.idea-ext")) {
         project.rootProject.plugins.apply(IdeaExtPlugin::class)
     }
@@ -54,7 +57,7 @@ internal fun Project.execTaskOnSync(task: Task) {
  * @since 0.0.2
  * @author Nils Jäkel
  * */
-internal fun Project.execTasksOnSync(vararg syncTasks: Task) {
+public fun Project.execTasksOnSync(vararg syncTasks: Task) {
     syncTasks.forEach { task ->
         execTaskOnSync(task)
     }
