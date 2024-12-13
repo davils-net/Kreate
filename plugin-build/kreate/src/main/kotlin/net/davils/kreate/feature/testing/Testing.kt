@@ -8,11 +8,8 @@
 package net.davils.kreate.feature.testing
 
 import io.kotest.framework.multiplatform.gradle.KotestMultiplatformCompilerGradlePlugin
-import net.davils.kreate.KreateExtension
-import net.davils.kreate.feature.KreateFeature
 import net.davils.kreate.feature.feature
 import org.gradle.api.Project
-import net.davils.kreate.feature.isFeatureEnabled
 import net.davils.kreate.isMultiplatform
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
@@ -49,10 +46,3 @@ internal fun testing(project: Project, config: TestingConfiguration) = project.f
         }
     }
 }
-
-/**
- * Represents the testing feature.
- *
- * @since 0.0.1
- * @author Nils Jäkel
- * */

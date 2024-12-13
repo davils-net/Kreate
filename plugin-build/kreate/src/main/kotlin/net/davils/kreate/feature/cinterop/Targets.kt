@@ -7,7 +7,6 @@
 
 package net.davils.kreate.feature.cinterop
 
-import net.davils.kreate.KreateExtension
 import net.davils.kreate.Paths
 import net.davils.kreate.build.BuildConstants
 import org.gradle.api.Project
@@ -21,7 +20,7 @@ import java.nio.file.Path
  * Applies the native targets to the gradle project.
  *
  * @param project The gradle current gradle project.
- * @param extension The kreate extension.
+ * @param config The cinterop configuration.
  *
  * @since 0.0.1
  * @author Nils Jäkel
