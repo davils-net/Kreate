@@ -19,7 +19,7 @@ import javax.inject.Inject
  * @author Nils Jäkel
  * */
 public abstract class PublishConfiguration @Inject constructor(objects: ObjectFactory)  : KreateFeatureConfiguration {
-    override val enabled: Property<Boolean> = objects.property(Boolean::class.java).apply { set(false) }
+    override val enabled: Property<Boolean> = objects.property(Boolean::class.java).apply { set(true) }
 
     /**
      * The year the project was created.
