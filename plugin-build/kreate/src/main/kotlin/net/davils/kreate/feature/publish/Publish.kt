@@ -26,22 +26,25 @@ import org.gradle.kotlin.dsl.*
  * @since 0.0.2
  * @author Nils Jäkel
  * */
-internal fun publish(project: Project, config: PublishConfiguration) = project.feature(config) { ext ->
-    val name = ext.core.name.get()
-    val description = ext.core.description.get()
-    val license = ext.core.license.get()
-    val inceptionYear = config.inceptionYear.get()
+internal fun publish(project: Project, config: PublishConfiguration) {
+    project.pluginManager.apply(MavenPublishPlugin::class)
 
-    require(inceptionYear >= 2024) { "The inception year must be at least 2024" }
-    plugins.apply(MavenPublishPlugin::class)
+    project.feature(config) { ext ->
+        val name = ext.core.name.get()
+        val description = ext.core.description.get()
+        val license = ext.core.license.get()
+        val inceptionYear = config.inceptionYear.get()
 
-    extensions.configure(PublishingExtension::class) {
-        publications.withType<MavenPublication> {
-            pom {
-                pomConfiguration(this, name, description, license)
+        require(inceptionYear >= 2024) { "The inception year must be at least 2024" }
+
+        extensions.configure(PublishingExtension::class) {
+            publications.withType<MavenPublication> {
+                pom {
+                    pomConfiguration(this, name, description, license)
+                }
             }
+            publishRepository(this)
         }
-        publishRepository(this)
     }
 }
 

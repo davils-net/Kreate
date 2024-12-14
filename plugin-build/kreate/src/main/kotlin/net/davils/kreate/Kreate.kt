@@ -27,8 +27,8 @@ public class Kreate : Plugin<Project> {
     override fun apply(project: Project) {
         val kreateExtension = project.extensions.create("kreate", KreateExtension::class)
 
-        publish(project, kreateExtension.publish)
         core(project, kreateExtension.core)
+        publish(project, kreateExtension.publish)
         cinterop(project, kreateExtension.cinterop)
         buildConstants(project, kreateExtension.buildConstants)
         testing(project, kreateExtension.testing)
