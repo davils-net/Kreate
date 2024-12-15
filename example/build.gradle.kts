@@ -40,6 +40,7 @@ kreate {
             )
         )
         isExplicitApiMode = true
+        allWarningsAsErrors = true
     }
 
     publish  {
@@ -73,6 +74,13 @@ kreate {
     docs {
         enabled = true
         isMultiModuleMode = true
+    }
+
+    jv {
+        enabled = true
+        javaVersion = JavaVersion.VERSION_17
+        withSourcesJar = true
+        withJavadocJar = true
     }
 }
 
