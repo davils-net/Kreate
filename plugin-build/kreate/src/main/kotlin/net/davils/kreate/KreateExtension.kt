@@ -11,6 +11,7 @@ import net.davils.kreate.feature.buildconstants.BuildConstantsConfiguration
 import net.davils.kreate.feature.cinterop.CInteropConfiguration
 import net.davils.kreate.feature.core.CoreConfiguration
 import net.davils.kreate.feature.docs.DocsConfiguration
+import net.davils.kreate.feature.java.JavaConfiguration
 import net.davils.kreate.feature.publish.PublishConfiguration
 import net.davils.kreate.feature.testing.TestingConfiguration
 import org.gradle.api.Action
@@ -76,6 +77,15 @@ public abstract class KreateExtension {
      * */
     @get:Nested
     public abstract val docs: DocsConfiguration
+
+    /**
+     * The default java configuration of the plugin.
+     *
+     * @since 0.0.3
+     * @author Nils Jäkel
+     * */
+    @get:Nested
+    public abstract val jv: JavaConfiguration
 
     /**
      * The default core configuration of the plugin.
@@ -147,5 +157,17 @@ public abstract class KreateExtension {
      * */
     public fun docs(action: Action<DocsConfiguration>) {
         action.execute(docs)
+    }
+
+    /**
+     * The default java configuration of the plugin.
+     *
+     * @param action The changes, that should be applied.
+     *
+     * @since 0.0.3
+     * @author Nils Jäkel
+     * */
+    public fun jv(action: Action<JavaConfiguration>) {
+        action.execute(jv)
     }
 }

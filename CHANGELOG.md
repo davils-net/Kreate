@@ -1,4 +1,16 @@
 # CHANGELOG
+## Version 0.0.3
+### Features
+#### Core
+- **Compiler Warnings** 
+  - Configured the compiler to treat warnings as errors, ensuring stricter code quality and adherence to standards.
+
+#### Java
+- **Java Support**:
+  - Defined the Java version for the project to ensure compatibility and consistency.
+  - Added the ability to enable or disable the configuration of the JavaDoc jar.
+  - Added the ability to enable or disable the configuration of the Java source jar.
+
 ## Version 0.0.2
 ### Features
 #### Core

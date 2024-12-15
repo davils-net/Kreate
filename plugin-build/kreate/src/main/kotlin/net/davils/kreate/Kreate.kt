@@ -11,6 +11,7 @@ import net.davils.kreate.feature.buildconstants.buildConstants
 import net.davils.kreate.feature.cinterop.cinterop
 import net.davils.kreate.feature.core.core
 import net.davils.kreate.feature.docs.docs
+import net.davils.kreate.feature.java.java
 import net.davils.kreate.feature.publish.publish
 import net.davils.kreate.feature.testing.testing
 import org.gradle.api.Plugin
@@ -28,6 +29,7 @@ public class Kreate : Plugin<Project> {
         val kreateExtension = project.extensions.create("kreate", KreateExtension::class)
 
         core(project, kreateExtension.core)
+        java(project, kreateExtension.jv)
         publish(project, kreateExtension.publish)
         cinterop(project, kreateExtension.cinterop)
         buildConstants(project, kreateExtension.buildConstants)
