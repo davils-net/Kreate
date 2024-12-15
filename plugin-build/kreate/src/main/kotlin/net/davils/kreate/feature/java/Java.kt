@@ -40,7 +40,12 @@ internal fun java(project: Project, config: JavaConfiguration): Unit = project.f
             jvm {
                 withJava()
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.fromTarget(javaVersion.majorVersion))
+                    val version = if (javaVersion.majorVersion.toInt() <= 9) {
+                        "1.${javaVersion.majorVersion}"
+                    } else {
+                        javaVersion.majorVersion
+                    }
+                    jvmTarget.set(JvmTarget.fromTarget(version))
                 }
             }
         }
