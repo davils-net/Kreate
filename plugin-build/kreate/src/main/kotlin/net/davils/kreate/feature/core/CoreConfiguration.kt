@@ -63,4 +63,12 @@ public abstract class CoreConfiguration @Inject constructor(objects: ObjectFacto
      * @author Nils Jäkel
      * */
     public val patchEntries: ListProperty<Entry> = objects.listProperty(Entry::class.java).apply { set(listOf()) }
+
+    /**
+     * If the current gradle project should have all warnings as errors enabled.
+     *
+     * @since 0.0.1
+     * @author Nils Jäkel
+     * */
+    public val allWarningsAsErrors: Property<Boolean> = objects.property(Boolean::class.java).apply { set(true) }
 }

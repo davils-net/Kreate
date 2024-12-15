@@ -30,6 +30,8 @@ internal fun core(project: Project, config: CoreConfiguration) {
 
     project.feature(config) { _ ->
         val isExplicitApiMode = config.isExplicitApiMode.get()
+        val isWarningAsErrors = config.allWarningsAsErrors.get()
+
         val license = registerTask<GenerateLicense>(
             "generateLicense",
             "Generates the license for the current project."
@@ -44,12 +46,24 @@ internal fun core(project: Project, config: CoreConfiguration) {
             project.extensions.configure<KotlinJvmProjectExtension>("kotlin") {
                 if (isExplicitApiMode) {
                     explicitApi()
+                    if (isWarningAsErrors) {
+                        compilerOptions {
+                            allWarningsAsErrors.set(true)
+                        }
+                    }
                 }
             }
         } else {
             project.extensions.configure<KotlinMultiplatformExtension>("kotlin") {
                 if (isExplicitApiMode) {
                     explicitApi()
+                }
+                if (isWarningAsErrors) {
+                    targets.all {
+                        this@configure.compilerOptions {
+                            allWarningsAsErrors.set(true)
+                        }
+                    }
                 }
                 jvm()
             }
