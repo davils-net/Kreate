@@ -78,7 +78,7 @@ kreate {
 
     jv {
         enabled = true
-        javaVersion = JavaVersion.VERSION_17
+        javaVersion = JavaVersion.VERSION_1_8
         withSourcesJar = true
         withJavadocJar = true
     }
