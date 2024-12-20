@@ -6,7 +6,7 @@ include:
 variables:
   CINTEROP_ENABLED: "true"
   TESTS_ENABLED: "false"
-  JDK_VERSION: "jdk8"
+  JDK_VERSION: "jdk17-graal"
 
 build:
   stage: build
