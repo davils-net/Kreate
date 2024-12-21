@@ -39,7 +39,7 @@ public abstract class GenerateBuildConstants : Task() {
         val properties = extension.buildConstants.properties.get()
         val isInternal = extension.buildConstants.onlyInternal.get()
 
-        val content = properties.entries.joinToString("\n") { "${if (!isInternal) "public" else "" } const val ${it.key} = \"${it.value}\"" }
+        val content = properties.entries.joinToString("\n") { "${if (!isInternal) "public" else "" } const val ${it.key}: String = \"${it.value}\"" }
         val generatedDir = extension.buildConstants.path(project)
         generatedDir.mkdirs()
 
@@ -49,13 +49,13 @@ public abstract class GenerateBuildConstants : Task() {
         }
 
         buildConstantsFile.writeText(
-            """
-             package ${BuildConstants.GROUP}.${projectName.lowercase()}.build
-              
-             ${if (isInternal) "internal" else "public"} object BuildConstants {
-                $content
-             }
-            """.trimIndent()
+"""
+ package ${BuildConstants.GROUP}.${projectName.lowercase()}.build
+  
+ ${if (isInternal) "internal" else "public"} object BuildConstants {
+    $content
+ }
+""".trimIndent()
         )
     }
 }
